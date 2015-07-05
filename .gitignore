@@ -1,0 +1,6 @@
+Survive/Content/*
+Survive/Intermediate/*
+Survive/Binaries/*
+Survive/Build/*
+Survive/Saved/*
+*.sdf
