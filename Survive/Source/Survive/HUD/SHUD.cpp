@@ -3,17 +3,14 @@
 
 ASHUD::ASHUD()
 {
-	static ConstructorHelpers::FObjectFinder<UTexture2D> TextureLoader(TEXT("/Game/Assets/HUD/Crosshair"));
-	crosshairTexture = TextureLoader.Object;
-	
+	crosshairTexture = nullptr;
 	crosshairScale = 0.1f;
 }
 
 void ASHUD::DrawHUD()
 {
 	Super::DrawHUD();
-
-	DrawInCenter(crosshairTexture, crosshairScale);
+	if(crosshairTexture) DrawInCenter(crosshairTexture, crosshairScale);
 }
 
 void ASHUD::DrawInCenter(const UTexture2D *texture, float scale)

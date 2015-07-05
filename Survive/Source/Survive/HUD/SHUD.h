@@ -9,9 +9,8 @@ class SURVIVE_API ASHUD : public AHUD
 	GENERATED_BODY()
 
 private:
-	UTexture2D *crosshairTexture;
-
-	UPROPERTY(EditAnywhere, Category = HUD) float crosshairScale;
+	UPROPERTY(EditAnywhere, Category = HUDCrosshair) UTexture2D *crosshairTexture;
+	UPROPERTY(EditAnywhere, Category = HUDCrosshair) float crosshairScale;
 
 public:
 	ASHUD();
