@@ -5,12 +5,16 @@
 ASBuildable::ASBuildable()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	onBuildingMaterial = onBuiltMaterial = nullptr;
+	onBuildingMaterial = nullptr;
+	onBuiltMaterial = nullptr;
+	onPointingOverMaterial = nullptr;
+	onSelectedMaterial = nullptr;
 }
 
 void ASBuildable::BeginPlay()
 {
 	Super::BeginPlay();
+	OnBuilding();
 }
 
 void ASBuildable::Tick( float DeltaTime )
@@ -21,27 +25,33 @@ void ASBuildable::Tick( float DeltaTime )
 
 void ASBuildable::OnBuilding()
 {
-	TArray<UStaticMeshComponent*> meshes;
-	GetComponents<UStaticMeshComponent>(meshes);
-	for (UStaticMeshComponent *mesh : meshes)
-	{
-		mesh->SetMaterial(0, onBuildingMaterial);
-	}
-
+	ChangeMaterial(onBuildingMaterial);
 	currentState = Building;
 }
 
 void ASBuildable::OnBuilt()
 {
-	TArray<UStaticMeshComponent*> meshes;
-	GetComponents<UStaticMeshComponent>(meshes);
-	for (UStaticMeshComponent *mesh : meshes)
-	{
-		mesh->SetMaterial(0, onBuiltMaterial);
-	}
-
+	ChangeMaterial(onBuiltMaterial);
 	currentState = Built;
 }
+
+void ASBuildable::OnPointingOver()
+{
+	ChangeMaterial(onPointingOverMaterial);
+	currentState = PointingOver;
+}
+
+//Trigers between selected / unselected(built)
+void ASBuildable::OnSelect()
+{
+	if (currentState == Selected) OnBuilt();
+	else
+	{
+		ChangeMaterial(onSelectedMaterial);
+		currentState = Selected;
+	}
+}
+
 
 void ASBuildable::OnDestroy()
 {
@@ -53,3 +63,10 @@ BuildableState ASBuildable::GetCurrentState()
 	return currentState;
 }
 
+void ASBuildable::ChangeMaterial(UMaterial *material)
+{
+	TArray<UStaticMeshComponent*> meshes;
+	GetComponents<UStaticMeshComponent>(meshes);
+	for (UStaticMeshComponent *mesh : meshes)
+		mesh->SetMaterial(0, material);
+}
