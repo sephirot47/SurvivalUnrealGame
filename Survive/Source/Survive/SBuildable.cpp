@@ -5,16 +5,18 @@
 ASBuildable::ASBuildable()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
 	onBuildingMaterial = nullptr;
 	onBuiltMaterial = nullptr;
 	onPointingOverMaterial = nullptr;
 	onSelectedMaterial = nullptr;
+
+	currentState = Built;
 }
 
 void ASBuildable::BeginPlay()
 {
 	Super::BeginPlay();
-	OnBuilding();
 }
 
 void ASBuildable::Tick( float DeltaTime )
