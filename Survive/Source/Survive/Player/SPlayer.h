@@ -9,6 +9,10 @@ class SURVIVE_API ASPlayer : public ACharacter
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stats) float health;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stats) float maxHealth;
+
+public:
 	ASPlayer();
 
 	virtual void BeginPlay() override;
@@ -16,6 +20,6 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	
-	
+	UFUNCTION(BlueprintCallable, Category = Stats) 
+	float GetHealthPercent();
 };

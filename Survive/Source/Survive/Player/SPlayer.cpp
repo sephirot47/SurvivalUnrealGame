@@ -6,6 +6,8 @@ ASPlayer::ASPlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	maxHealth = 100.0f;
+	health = maxHealth * 0.6f;
 }
 
 void ASPlayer::BeginPlay()
@@ -23,3 +25,7 @@ void ASPlayer::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
+float ASPlayer::GetHealthPercent() 
+{ 
+	return health / maxHealth;
+}
