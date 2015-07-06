@@ -20,16 +20,23 @@ void UC_SPlayerBuildManager::BeginPlay()
 
 void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (lastTargetBuildable && lastTargetBuildable != targetBuildable)
+	{
+		if(lastTargetBuildable->GetCurrentState() != BuildableState::Selected)
+			lastTargetBuildable->OnBuilt();
+	}
+
+	if (targetBuildable)
+	{ 
+		if (targetBuildable->GetCurrentState() == BuildableState::Built)
+			targetBuildable->OnPointingOver();
+	}
 }
 
 void UC_SPlayerBuildManager::OnInputSelectBuildable() 
 {
-	if (lastTargetBuildable && lastTargetBuildable != targetBuildable)
-	{
-		lastTargetBuildable->OnBuilt();
-	}
-
 	if (targetBuildable)
 	{
 		targetBuildable->OnSelect();
