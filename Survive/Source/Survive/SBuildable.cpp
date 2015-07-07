@@ -11,9 +11,6 @@ ASBuildable::ASBuildable()
 
 	currentState = Built;
 
-	//Esto se sabe mirando el archivo Config/DefaultEngine.ini, y encontrado la línea donde está definido :)
-	BuildableChannel = ECC_GameTraceChannel2; 
-	BuildingChannel  = ECC_GameTraceChannel3;
 }
 
 void ASBuildable::BeginPlay()
@@ -31,21 +28,21 @@ void ASBuildable::OnBuilding()
 {
 	ChangeMaterial(onBuildingMaterial);
 	currentState = Building;
-	SetCollisionObjectType(BuildingChannel);
+	SetCollisionObjectType( BuildingChannel );
 }
 
 void ASBuildable::OnBuilt()
 {
 	ChangeMaterial(onBuiltMaterial);
 	currentState = Built;
-	SetCollisionObjectType(BuildableChannel);
+	SetCollisionObjectType( BuildableChannel );
 }
 
 void ASBuildable::OnPointingOver()
 {
 	ChangeMaterial(onPointingOverMaterial);
 	currentState = PointingOver;
-	SetCollisionObjectType(BuildableChannel);
+	SetCollisionObjectType( BuildableChannel );
 }
 
 void ASBuildable::OnDestroy()
@@ -62,17 +59,12 @@ void ASBuildable::ChangeMaterial(UMaterial *material)
 {
 	TArray<UStaticMeshComponent*> meshes;
 	GetComponents<UStaticMeshComponent>(meshes);
-	for (UStaticMeshComponent *mesh : meshes)
-		mesh->SetMaterial(0, material);
+	for (UStaticMeshComponent *mesh : meshes) mesh->SetMaterial(0, material);
 }
 
 void ASBuildable::SetCollisionObjectType(ECollisionChannel channel)
 {
 	TArray<UStaticMeshComponent*> meshes;
 	GetComponents<UStaticMeshComponent>(meshes);
-	for (UStaticMeshComponent* mesh : meshes)
-	{
-		GEngine->AddOnScreenDebugMessage(123, 100.0f, FColor::Red, TEXT("lalalala"));
-		mesh->SetCollisionObjectType(channel);
-	}
+	for (UStaticMeshComponent* mesh : meshes)  mesh->SetCollisionObjectType(channel);
 }

@@ -3,6 +3,13 @@
 #include "GameFramework/Actor.h"
 #include "SBuildable.generated.h"
 
+//NO MIRAR
+// GOD DON'T YOU KILL ME FOR THIS, AN STRANGE ERROR IS THE CULPRIT
+//Esto se sabe mirando el archivo Config/DefaultEngine.ini, y encontrado la línea donde está definido :)
+#define BuildableChannel ECC_GameTraceChannel2
+#define  BuildingChannel ECC_GameTraceChannel3
+//
+
 UENUM(BlueprintType)
 enum BuildableState
 {
@@ -26,9 +33,8 @@ private:
 
 	void ChangeMaterial(UMaterial *material);
 
-	ECollisionChannel BuildableChannel, BuildingChannel;
-
 public:	
+	
 	ASBuildable();
 
 	virtual void BeginPlay() override;

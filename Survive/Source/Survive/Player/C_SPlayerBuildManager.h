@@ -40,6 +40,13 @@ public:
 	void OnInputMoveBuildable();
 	void OnInputRemoveBuildable();
 
+	//Fills the targetBuildable and targetPoint variables, tracing the rays and stuff
+	UFUNCTION(BlueprintCallable, Category = "Player Building Target")
+		void FillTargetInfo();
+
 	UFUNCTION(BlueprintCallable, Category = "Player Building State")
 		PlayerBuildingState GetCurrentBuildingState();
+
+	FORCEINLINE bool Trace(TArray<AActor*> &actorsToIgnore,
+						   const FVector& Start, const FVector& End, FHitResult& HitOut, ECollisionChannel CollisionChannel);
 };
