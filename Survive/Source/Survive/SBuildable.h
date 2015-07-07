@@ -26,6 +26,8 @@ private:
 
 	void ChangeMaterial(UMaterial *material);
 
+	ECollisionChannel BuildableChannel, BuildingChannel;
+
 public:	
 	ASBuildable();
 
@@ -47,5 +49,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = BuildableState)
 		BuildableState GetCurrentState();
 
-	void SetCollisionObjectType(FName collisionProfileName);
+	void SetCollisionObjectType(ECollisionChannel channel);
 };
