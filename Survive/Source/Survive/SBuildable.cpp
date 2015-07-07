@@ -27,18 +27,21 @@ void ASBuildable::OnBuilding()
 {
 	ChangeMaterial(onBuildingMaterial);
 	currentState = Building;
+	SetCollisionObjectType( FName("Building") );
 }
 
 void ASBuildable::OnBuilt()
 {
 	ChangeMaterial(onBuiltMaterial);
 	currentState = Built;
+	SetCollisionObjectType( FName("Buildable") );
 }
 
 void ASBuildable::OnPointingOver()
 {
 	ChangeMaterial(onPointingOverMaterial);
 	currentState = PointingOver;
+	SetCollisionObjectType( FName("Buildable") );
 }
 
 void ASBuildable::OnDestroy()
@@ -57,4 +60,15 @@ void ASBuildable::ChangeMaterial(UMaterial *material)
 	GetComponents<UStaticMeshComponent>(meshes);
 	for (UStaticMeshComponent *mesh : meshes)
 		mesh->SetMaterial(0, material);
+}
+
+void ASBuildable::SetCollisionObjectType( FName collisionProfileName )
+{
+	TArray<UStaticMeshComponent*> meshes;
+	GetComponents<UStaticMeshComponent>(meshes);
+	for (UStaticMeshComponent* mesh : meshes)
+	{
+		mesh->SetCollisionProfileName(collisionProfileName);
+		mesh->UpdateCollisionProfile();
+	}
 }

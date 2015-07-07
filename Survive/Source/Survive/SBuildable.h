@@ -46,4 +46,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = BuildableState)
 		BuildableState GetCurrentState();
+
+	void SetCollisionObjectType(FName collisionProfileName);
 };

@@ -6,6 +6,12 @@
 #include "SBuildable.h"
 #include "C_SPlayerBuildManager.generated.h"
 
+UENUM(BlueprintType)
+enum PlayerBuildingState
+{
+	Pointing,
+	Moving
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SURVIVE_API UC_SPlayerBuildManager : public UActorComponent
@@ -13,6 +19,7 @@ class SURVIVE_API UC_SPlayerBuildManager : public UActorComponent
 	GENERATED_BODY()
 
 	ACharacter *character;
+	PlayerBuildingState currentState;
 
 public:
 
@@ -22,10 +29,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Buildable")
 		ASBuildable *lastTargetBuildable;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Point")
+		FVector targetPoint;
+
 	UC_SPlayerBuildManager();
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+	void OnInputMoveBuildable();
 	void OnInputRemoveBuildable();
+
+	UFUNCTION(BlueprintCallable, Category = "Player Building State")
+		PlayerBuildingState GetCurrentBuildingState();
 };
