@@ -9,7 +9,6 @@ enum BuildableState
 	Building,		  //When the player is positioning this building
 	Built,			  //Default state
 	PointingOver,     //When the player is pointing this building
-	Selected		  //When the player has selected this building
 };
 
 UCLASS()
@@ -41,9 +40,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = BuildableState)
 		void OnPointingOver();
-
-	UFUNCTION(BlueprintCallable, Category = BuildableState)
-		void OnSelect();
 
 	UFUNCTION(BlueprintCallable, Category = BuildableState)
 		void OnDestroy();

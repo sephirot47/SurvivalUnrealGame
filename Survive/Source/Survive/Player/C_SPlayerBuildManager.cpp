@@ -14,7 +14,6 @@ void UC_SPlayerBuildManager::BeginPlay()
 	Super::BeginPlay();
 
 	character = Cast<ACharacter>(GetOwner());
-	character->InputComponent->BindAction("Select Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputSelectBuildable);
 	character->InputComponent->BindAction("Remove Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputRemoveBuildable);
 }
 
@@ -24,8 +23,7 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 
 	if (lastTargetBuildable && lastTargetBuildable != targetBuildable)
 	{
-		if(lastTargetBuildable->GetCurrentState() != BuildableState::Selected)
-			lastTargetBuildable->OnBuilt();
+		lastTargetBuildable->OnBuilt();
 	}
 
 	if (targetBuildable)
@@ -35,14 +33,10 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 	}
 }
 
-void UC_SPlayerBuildManager::OnInputSelectBuildable() 
+void UC_SPlayerBuildManager::OnInputRemoveBuildable() 
 {
 	if (targetBuildable)
 	{
-		targetBuildable->OnSelect();
+		targetBuildable->OnDestroy();
 	}
-}
-
-void UC_SPlayerBuildManager::OnInputRemoveBuildable() 
-{
 }

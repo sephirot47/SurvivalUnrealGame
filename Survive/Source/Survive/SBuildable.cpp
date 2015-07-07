@@ -1,7 +1,6 @@
 #include "Survive.h"
 #include "SBuildable.h"
 
-
 ASBuildable::ASBuildable()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -9,7 +8,6 @@ ASBuildable::ASBuildable()
 	onBuildingMaterial = nullptr;
 	onBuiltMaterial = nullptr;
 	onPointingOverMaterial = nullptr;
-	onSelectedMaterial = nullptr;
 
 	currentState = Built;
 }
@@ -43,21 +41,9 @@ void ASBuildable::OnPointingOver()
 	currentState = PointingOver;
 }
 
-//Trigers between selected / unselected(built)
-void ASBuildable::OnSelect()
-{
-	if (currentState == Selected) OnBuilt();
-	else
-	{
-		ChangeMaterial(onSelectedMaterial);
-		currentState = Selected;
-	}
-}
-
-
 void ASBuildable::OnDestroy()
 {
-
+	this->Destroy();
 }
 
 BuildableState ASBuildable::GetCurrentState()
