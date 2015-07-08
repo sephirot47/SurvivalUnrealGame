@@ -23,6 +23,8 @@ private:
 	UPROPERTY(EditAnywhere) UMaterial *onSelectedMaterial;
 
 	BuildableState currentState;
+	
+	float rotationSpeed;
 
 	void ChangeMaterial(UMaterial *material);
 
@@ -49,4 +51,6 @@ public:
 		BuildableState GetCurrentState();
 	
 	void SetCollidableWithPlayer(bool collidableWithPlayer);
+
+	float GetRotationSpeed() { return rotationSpeed; }
 };

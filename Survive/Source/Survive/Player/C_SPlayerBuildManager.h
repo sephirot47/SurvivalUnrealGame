@@ -29,6 +29,8 @@ class SURVIVE_API UC_SPlayerBuildManager : public UActorComponent
 	ACharacter *character;
 	PlayerBuildingState currentState;
 
+	bool rotateInputDown;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Buildable")
@@ -46,6 +48,9 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 	void OnInputMoveBuildable();
+	void OnInputRotateBuildableDown();
+	void RotateTargetBuildable();
+	void OnInputRotateBuildableUp();
 	void OnInputRemoveBuildable();
 
 	//Fills the targetBuildable and targetPoint variables, tracing the rays and stuff

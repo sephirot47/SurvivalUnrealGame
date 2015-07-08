@@ -9,6 +9,8 @@ UC_SPlayerBuildManager::UC_SPlayerBuildManager()
 
 	currentState = PlayerBuildingState::Pointing;
 	targetPoint = FVector::ZeroVector;
+
+	rotateInputDown = false;
 }
 
 
@@ -17,7 +19,9 @@ void UC_SPlayerBuildManager::BeginPlay()
 	Super::BeginPlay();
 
 	character = Cast<ACharacter>(GetOwner());
-	character->InputComponent->BindAction("Move Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputMoveBuildable);
+	character->InputComponent->BindAction("Move Buildable",   IE_Pressed, this, &UC_SPlayerBuildManager::OnInputMoveBuildable);
+	character->InputComponent->BindAction("Rotate Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputRotateBuildableDown);
+	character->InputComponent->BindAction("Rotate Buildable", IE_Released, this, &UC_SPlayerBuildManager::OnInputRotateBuildableUp);
 	character->InputComponent->BindAction("Remove Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputRemoveBuildable);
 }
 
@@ -47,6 +51,8 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 			targetBuildable->SetActorLocation( targetPoint );
 		}
 	}
+
+	if (rotateInputDown) RotateTargetBuildable();
 }
 
 void UC_SPlayerBuildManager::FillTargetInfo()
@@ -105,6 +111,21 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 			currentState = PlayerBuildingState::Pointing;
 			targetBuildable->OnBuilt();
 		}
+	}
+}
+
+void UC_SPlayerBuildManager::OnInputRotateBuildableDown() { rotateInputDown = true; }
+void UC_SPlayerBuildManager::OnInputRotateBuildableUp() { rotateInputDown = false; }
+
+void UC_SPlayerBuildManager::RotateTargetBuildable()
+{
+	if (targetBuildable && rotateInputDown)
+	{
+		FRotator rot;
+		float rotSpeed = targetBuildable->GetRotationSpeed();
+		FVector euler(0.0f, 0.0f, rotSpeed);
+		rot.MakeFromEuler(euler);
+		targetBuildable->AddActorWorldRotation(rot);
 	}
 }
 

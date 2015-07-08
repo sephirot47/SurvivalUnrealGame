@@ -10,6 +10,7 @@ ASBuildable::ASBuildable()
 	onPointingOverMaterial = nullptr;
 
 	currentState = Built;
+	rotationSpeed = -3.0f;
 
 }
 
