@@ -137,6 +137,7 @@ void UC_SPlayerBuildManager::OnInputRemoveBuildable()
 	if (targetBuildable && targetPoint != FVector::ZeroVector)
 	{
 		targetBuildable->OnDestroy();
+		currentState = PlayerBuildingState::Pointing;
 	}
 }
 
