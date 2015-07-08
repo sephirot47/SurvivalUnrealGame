@@ -17,16 +17,22 @@ class SURVIVE_API ASBuildable : public AActor
 	GENERATED_BODY()
 	
 private:
+
 	UPROPERTY(EditAnywhere) UMaterial *onBuildingMaterial;
+	UPROPERTY(EditAnywhere) UMaterial *onWrongBuildingMaterial;
 	UPROPERTY(EditAnywhere) UMaterial *onBuiltMaterial;
 	UPROPERTY(EditAnywhere) UMaterial *onPointingOverMaterial;
 	UPROPERTY(EditAnywhere) UMaterial *onSelectedMaterial;
 
+	UMaterial *lastMaterial;
+
 	BuildableState currentState;
 	
 	float rotationSpeed;
+	int overlaps;
 
 	void ChangeMaterial(UMaterial *material);
+	bool IsOverlapping() { return overlaps > 0; }
 
 public:	
 	
@@ -49,8 +55,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = BuildableState)
 		BuildableState GetCurrentState();
-	
+
+	UFUNCTION()
+		void OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
+							bool bFromSweep, const FHitResult & SweepResult);
+	UFUNCTION()
+		void OnEndOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 	void SetCollidableWithPlayer(bool collidableWithPlayer);
 
-	float GetRotationSpeed() { return rotationSpeed; }
+	inline bool CanBeBuilt() { return !IsOverlapping(); }
+	inline float GetRotationSpeed() { return rotationSpeed; }
 };

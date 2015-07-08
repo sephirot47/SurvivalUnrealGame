@@ -108,8 +108,11 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 		//Si tiene targetBuildable y esta apuntando a algun sitio donde pueda ponerlo...
 		if (targetBuildable && targetPoint != FVector::ZeroVector) 
 		{
-			currentState = PlayerBuildingState::Pointing;
-			targetBuildable->OnBuilt();
+			if (targetBuildable->CanBeBuilt())
+			{
+				currentState = PlayerBuildingState::Pointing;
+				targetBuildable->OnBuilt();
+			}
 		}
 	}
 }
