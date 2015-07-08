@@ -28,21 +28,21 @@ void ASBuildable::OnBuilding()
 {
 	ChangeMaterial(onBuildingMaterial);
 	currentState = Building;
-	SetCollisionObjectType( BuildingChannel );
+	SetCollidableWithPlayer(false);
 }
 
 void ASBuildable::OnBuilt()
 {
 	ChangeMaterial(onBuiltMaterial);
 	currentState = Built;
-	SetCollisionObjectType( BuildableChannel );
+	SetCollidableWithPlayer(true);
 }
 
 void ASBuildable::OnPointingOver()
 {
 	ChangeMaterial(onPointingOverMaterial);
 	currentState = PointingOver;
-	SetCollisionObjectType( BuildableChannel );
+	SetCollidableWithPlayer(true);
 }
 
 void ASBuildable::OnDestroy()
@@ -62,9 +62,10 @@ void ASBuildable::ChangeMaterial(UMaterial *material)
 	for (UStaticMeshComponent *mesh : meshes) mesh->SetMaterial(0, material);
 }
 
-void ASBuildable::SetCollisionObjectType(ECollisionChannel channel)
+void ASBuildable::SetCollidableWithPlayer(bool collidableWithPlayer)
 {
 	TArray<UStaticMeshComponent*> meshes;
 	GetComponents<UStaticMeshComponent>(meshes);
-	for (UStaticMeshComponent* mesh : meshes)  mesh->SetCollisionObjectType(channel);
+	for (UStaticMeshComponent *mesh : meshes)
+		mesh->SetCollisionResponseToChannel(ECC_Pawn, collidableWithPlayer ? ECR_Block : ECR_Overlap);
 }

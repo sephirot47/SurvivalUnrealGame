@@ -6,6 +6,14 @@
 #include "SBuildable.h"
 #include "C_SPlayerBuildManager.generated.h"
 
+//NO MIRAR
+// GOD DON'T YOU KILL ME FOR THIS, AN STRANGE ERROR IS THE CULPRIT
+//Esto se sabe mirando el archivo Config/DefaultEngine.ini, y encontrado la línea donde está definido :)
+#define PlayerMovingTraceChannel   ECC_GameTraceChannel1
+#define PlayerPointingTraceChannel ECC_GameTraceChannel4
+//
+
+
 UENUM(BlueprintType)
 enum PlayerBuildingState
 {
@@ -48,5 +56,5 @@ public:
 		PlayerBuildingState GetCurrentBuildingState();
 
 	FORCEINLINE bool Trace(TArray<AActor*> &actorsToIgnore,
-						   const FVector& Start, const FVector& End, FHitResult& HitOut, ECollisionChannel CollisionChannel);
+						   const FVector& Start, const FVector& End, FHitResult& HitOut, ECollisionChannel TraceChannel);
 };

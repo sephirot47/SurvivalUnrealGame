@@ -44,7 +44,6 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 	{
 		if (targetBuildable)
 		{
-			GEngine->AddOnScreenDebugMessage(123, 1.0f, FColor::Green, targetPoint.ToString());
 			targetBuildable->SetActorLocation( targetPoint );
 		}
 	}
@@ -53,18 +52,21 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 void UC_SPlayerBuildManager::FillTargetInfo()
 {
 	TArray<AActor*> ignoredActors;
-	ignoredActors.Add(GetOwner()); //Ignore myself
+	ignoredActors.Add(GetOwner()); //Ignore myself (he player)
 
-	FVector traceStart = character->GetActorLocation();
-	FVector traceEnd   = traceStart + character->GetActorForwardVector() * 9999.9f;
+	APlayerCameraManager *camManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+	FVector traceStart = camManager->GetCameraLocation();
+	FVector traceEnd = traceStart + camManager->GetCameraRotation().Vector() * 9999.9f;
+	//DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor::Green, true, 1.0f);
 
 	ECollisionChannel channel;
-	if (currentState == PlayerBuildingState::Pointing) channel = BuildableChannel;
-	else channel = ECC_WorldStatic;
+	if (currentState == PlayerBuildingState::Pointing) channel = PlayerPointingTraceChannel;
+	else channel = PlayerMovingTraceChannel;
 
 	FHitResult hitResult;
-	if (Trace(ignoredActors, traceStart, traceEnd, hitResult, channel))
+	if (Trace(ignoredActors, traceStart, traceEnd, hitResult, channel)) 
 	{
+		//Hitting something!
 		targetPoint = hitResult.Location;
 
 		//Only when Pointing. If we are Moving, we must not override targetBuildable 
@@ -73,15 +75,15 @@ void UC_SPlayerBuildManager::FillTargetInfo()
 			ASBuildable *buildable = Cast<ASBuildable>(hitResult.GetActor());
 			targetBuildable = buildable; //If the hit object is not a buildable, then the cast fails, hence buildable = nullptr :)
 		}
+
+		if (targetBuildable) targetBuildable->SetActorHiddenInGame(false);
 	}
-	else
+	else //Don't hit anything
 	{
 		targetPoint = FVector::ZeroVector;
 
-		//Only put it to nullptr when player is Pointing, because if it's Moving we must keep a reference
-		//to the moving buildable in targetBuildable variable, in order to be able to move this
-		if (currentState == PlayerBuildingState::Pointing)  
-			targetBuildable = nullptr; 
+		if (currentState == PlayerBuildingState::Pointing)  targetBuildable = nullptr;
+		if (currentState == PlayerBuildingState::Moving && targetBuildable) targetBuildable->SetActorHiddenInGame(true);
 	}
 }
 
@@ -97,7 +99,8 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 	}
 	else if (currentState == PlayerBuildingState::Moving) //Finished moving the buildable (confirmed new location)
 	{
-		if (targetBuildable)
+		//Si tiene targetBuildable y esta apuntando a algun sitio donde pueda ponerlo...
+		if (targetBuildable && targetPoint != FVector::ZeroVector) 
 		{
 			currentState = PlayerBuildingState::Pointing;
 			targetBuildable->OnBuilt();
@@ -107,7 +110,7 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 
 void UC_SPlayerBuildManager::OnInputRemoveBuildable() 
 {
-	if (targetBuildable)
+	if (targetBuildable && targetPoint != FVector::ZeroVector)
 	{
 		targetBuildable->OnDestroy();
 	}
@@ -121,17 +124,17 @@ PlayerBuildingState UC_SPlayerBuildManager::GetCurrentBuildingState()
 
 FORCEINLINE bool UC_SPlayerBuildManager::Trace(TArray<AActor*> &actorsToIgnore,
 												const FVector& Start, const FVector& End, FHitResult& HitOut,
-												ECollisionChannel CollisionChannel)
+												ECollisionChannel TraceChannel)
 {
 	FCollisionQueryParams TraceParams(FName(TEXT("VictoreCore Trace")), true);
-	TraceParams.bTraceComplex = true;
+	TraceParams.bTraceComplex = false; //En principio, colliders simples
 	TraceParams.bReturnPhysicalMaterial = false;
 	TraceParams.AddIgnoredActors(actorsToIgnore);
 	HitOut = FHitResult(ForceInit);
 
-	TObjectIterator< APlayerController > ThePC;
-	if (!ThePC) return false;
+	TObjectIterator< APlayerController > pc;
+	if (!pc) return false;
 
-	ThePC->GetWorld()->LineTraceSingle(HitOut, Start, End, CollisionChannel, TraceParams);
+	pc->GetWorld()->LineTraceSingleByChannel(HitOut, Start, End, TraceChannel, TraceParams);
 	return (HitOut.GetActor() != NULL);
 }
