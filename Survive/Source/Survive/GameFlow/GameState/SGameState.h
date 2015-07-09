@@ -16,9 +16,10 @@ UCLASS()
 class SURVIVE_API ASGameState : public AGameState
 {
 	GENERATED_BODY()
-	
+
 private:
 	GameFlowState currentState;
+
 
 	void OnInput_OpenBuildingsMenu();
 	void OnInput_OpenInventory();
@@ -30,6 +31,8 @@ public:
 	ASGameState();
 
 	virtual void BeginPlay() override;
+
+	void SetState(GameFlowState state);
 
 	UFUNCTION(BlueprintCallable, Category = "Game Flow State")
 		void SetCurrentGameFlowState(GameFlowState state);
