@@ -8,7 +8,8 @@ enum GameFlowState
 {
 	Playing,
 	BuildingsMenu,
-	Inventory
+	Inventory,
+	Paused
 };
 
 UCLASS()
@@ -22,6 +23,7 @@ private:
 	void OnInput_OpenBuildingsMenu();
 	void OnInput_OpenInventory();
 	void OnInput_GoBack();
+	void OnInput_PauseGame();
 
 public:
 
