@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../InGame/Player/SPlayer.h"
 #include "GameFramework/GameState.h"
 #include "SGameState.generated.h"
 
@@ -19,7 +20,7 @@ class SURVIVE_API ASGameState : public AGameState
 
 private:
 	GameFlowState currentState;
-
+	ASPlayer *player;
 
 	void OnInput_OpenBuildingsMenu();
 	void OnInput_OpenInventory();

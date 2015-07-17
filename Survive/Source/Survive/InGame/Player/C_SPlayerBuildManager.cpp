@@ -145,6 +145,11 @@ void UC_SPlayerBuildManager::OnBuildingsMenuItemSelected(TSubclassOf<ASBuildable
 {
 	AActor *actor = GetWorld()->SpawnActor(BuildableClass);
 	ASBuildable *buildable = Cast<ASBuildable>(actor);
+	
+	//If the player was pointing any building, build it (quit the onpointing)
+	//(it will never be built in a wrong place because you can only enter the building menu if the player
+	// wasnt moving any buildable)
+	if (targetBuildable)  targetBuildable->OnBuilt();
 
 	targetBuildable = buildable;
 	targetBuildable->OnBuilding();

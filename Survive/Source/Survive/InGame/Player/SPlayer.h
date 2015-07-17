@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "C_SPlayerBuildManager.h"
 #include "SPlayer.generated.h"
 
 UCLASS()
@@ -19,6 +20,8 @@ public:
 	
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+
+	UC_SPlayerBuildManager*  GetBuildManager();
 
 	UFUNCTION(BlueprintCallable, Category = Stats) 
 	float GetHealthPercent();

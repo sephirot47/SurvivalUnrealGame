@@ -25,6 +25,13 @@ void ASPlayer::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
+UC_SPlayerBuildManager* ASPlayer::GetBuildManager()
+{
+	TArray<UC_SPlayerBuildManager*> components;
+	GetComponents(components);
+	return components[0];
+}
+
 float ASPlayer::GetHealthPercent() 
 { 
 	return health / maxHealth;

@@ -11,18 +11,19 @@ void ASGameState::BeginPlay()
 	Super::BeginPlay();
 
 	ACharacter *character = GetWorld()->GetFirstPlayerController()->GetCharacter();
-	
+	player = Cast<ASPlayer>(character);
+
 	FInputActionBinding *toggle;
-	toggle = &character->InputComponent->BindAction("Open Buildings Menu", IE_Pressed, this, &ASGameState::OnInput_OpenBuildingsMenu);
+	toggle = &player->InputComponent->BindAction("Open Buildings Menu", IE_Pressed, this, &ASGameState::OnInput_OpenBuildingsMenu);
 	toggle->bExecuteWhenPaused = true;
 
-	toggle = &character->InputComponent->BindAction("Open Inventory", IE_Pressed, this, &ASGameState::OnInput_OpenInventory);
+	toggle = &player->InputComponent->BindAction("Open Inventory", IE_Pressed, this, &ASGameState::OnInput_OpenInventory);
 	toggle->bExecuteWhenPaused = true;
 
-	toggle = &character->InputComponent->BindAction("Go Back", IE_Pressed, this, &ASGameState::OnInput_GoBack);
+	toggle = &player->InputComponent->BindAction("Go Back", IE_Pressed, this, &ASGameState::OnInput_GoBack);
 	toggle->bExecuteWhenPaused = true;
 
-	toggle = &character->InputComponent->BindAction("Pause", IE_Pressed, this, &ASGameState::OnInput_PauseGame);
+	toggle = &player->InputComponent->BindAction("Pause", IE_Pressed, this, &ASGameState::OnInput_PauseGame);
 	toggle->bExecuteWhenPaused = true; //EVEN THOUGH THE GAME IS PAUSED, CATCH THIS EVENT !!!! To be able to unpause hehe :)
 
 	SetCurrentGameFlowState(GameFlowState::Playing);
@@ -31,7 +32,12 @@ void ASGameState::BeginPlay()
 void ASGameState::OnInput_OpenBuildingsMenu()
 {
 	if (currentState == GameFlowState::BuildingsMenu) SetCurrentGameFlowState(GameFlowState::Playing);
-	else SetCurrentGameFlowState(GameFlowState::BuildingsMenu);
+	else
+	{
+		if (player->GetBuildManager()->GetCurrentBuildingState() == PlayerBuildingState::Moving)
+		{}
+		else SetCurrentGameFlowState(GameFlowState::BuildingsMenu);
+	}
 }
 
 void ASGameState::OnInput_OpenInventory()
