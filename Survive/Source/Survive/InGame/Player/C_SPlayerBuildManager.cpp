@@ -147,6 +147,8 @@ void UC_SPlayerBuildManager::OnBuildingsMenuItemSelected(TSubclassOf<ASBuildable
 	ASBuildable *buildable = Cast<ASBuildable>(actor);
 
 	targetBuildable = buildable;
+	targetBuildable->OnBuilding();
+	currentState = PlayerBuildingState::Moving;
 }
 
 PlayerBuildingState UC_SPlayerBuildManager::GetCurrentBuildingState()
