@@ -141,6 +141,14 @@ void UC_SPlayerBuildManager::OnInputRemoveBuildable()
 	}
 }
 
+void UC_SPlayerBuildManager::OnBuildingsMenuItemSelected(TSubclassOf<ASBuildable> BuildableClass)
+{
+	AActor *actor = GetWorld()->SpawnActor(BuildableClass);
+	ASBuildable *buildable = Cast<ASBuildable>(actor);
+
+	targetBuildable = buildable;
+}
+
 PlayerBuildingState UC_SPlayerBuildManager::GetCurrentBuildingState()
 {
 	return currentState;

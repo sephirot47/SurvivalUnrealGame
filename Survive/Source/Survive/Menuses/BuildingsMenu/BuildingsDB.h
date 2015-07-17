@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "../../InGame/Buildable/SBuildable.h"
 #include "BuildingsDB.generated.h"
 
 USTRUCT(BlueprintType)
@@ -15,7 +16,13 @@ struct FBuildingItemDB
 		FString description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+		int32 id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 		UTexture2D *thumbnail;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+		TSubclassOf<ASBuildable> buildableClass;
 };
 
 UCLASS()
@@ -30,6 +37,9 @@ public:
 		TArray<FBuildingItemDB> buildingItems;
 
 	ABuildingsDB();
+	
+	UFUNCTION(BlueprintCallable, Category = "Building Items")
+		TSubclassOf<ASBuildable> GetBuildingClassFromId(int32 id);
 
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
