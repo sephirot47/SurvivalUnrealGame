@@ -7,7 +7,7 @@
 #include "C_SPlayerBuildManager.generated.h"
 
 //NO MIRAR
-// GOD DON'T YOU KILL ME FOR THIS, AN STRANGE ERROR IS THE CULPRIT
+// GOD DON'T YOU KILL ME FOR THIS
 //Esto se sabe mirando el archivo Config/DefaultEngine.ini, y encontrado la línea donde está definido :)
 #define PlayerMovingTraceChannel   ECC_GameTraceChannel1
 #define PlayerPointingTraceChannel ECC_GameTraceChannel4
@@ -48,6 +48,7 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 	void OnInputMoveBuildable();
+	void OnInputPutBuildable();
 	void OnInputRotateBuildableDown();
 	void RotateTargetBuildable();
 	void OnInputRotateBuildableUp();

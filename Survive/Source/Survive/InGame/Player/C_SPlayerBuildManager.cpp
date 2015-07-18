@@ -19,7 +19,8 @@ void UC_SPlayerBuildManager::BeginPlay()
 	Super::BeginPlay();
 
 	character = Cast<ACharacter>(GetOwner());
-	character->InputComponent->BindAction("Move Buildable",   IE_Pressed, this, &UC_SPlayerBuildManager::OnInputMoveBuildable);
+	character->InputComponent->BindAction("Move Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputMoveBuildable);
+	character->InputComponent->BindAction("Put Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputPutBuildable);
 	character->InputComponent->BindAction("Rotate Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputRotateBuildableDown);
 	character->InputComponent->BindAction("Rotate Buildable", IE_Released, this, &UC_SPlayerBuildManager::OnInputRotateBuildableUp);
 	character->InputComponent->BindAction("Remove Buildable", IE_Pressed, this, &UC_SPlayerBuildManager::OnInputRemoveBuildable);
@@ -106,7 +107,7 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 	else if (currentState == PlayerBuildingState::Moving) //Finished moving the buildable (confirmed new location)
 	{
 		//Si tiene targetBuildable y esta apuntando a algun sitio donde pueda ponerlo...
-		if (targetBuildable && targetPoint != FVector::ZeroVector) 
+		if (targetBuildable && targetPoint != FVector::ZeroVector)
 		{
 			if (targetBuildable->CanBeBuilt())
 			{
@@ -115,6 +116,12 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 			}
 		}
 	}
+}
+
+//This function adds the left click input for when you want to put the buildable, but not for moving it
+void UC_SPlayerBuildManager::OnInputPutBuildable()
+{
+	OnInputMoveBuildable();
 }
 
 void UC_SPlayerBuildManager::OnInputRotateBuildableDown() { rotateInputDown = true; }
