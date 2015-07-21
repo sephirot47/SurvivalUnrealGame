@@ -10,6 +10,7 @@ class SURVIVE_API ASEnemy : public ACharacter
 
 private:
 	float maxLife, life;
+	float speed;
 	
 public:
 	ASEnemy();
@@ -19,5 +20,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	
-	
+	float GetMaxLife() { return maxLife; }
+	float GetLife() { return life; }
+	float GetSpeed() { return speed; }
 };
