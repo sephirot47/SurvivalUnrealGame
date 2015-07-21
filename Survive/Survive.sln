@@ -1,7 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-# UnrealEngineGeneratedSolutionVersion=1.0
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{13D4FBCC-70D8-4E7A-A10E-DB10A229E731}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{2A336EC5-A0BC-454E-A923-53B5E658CC27}"
@@ -44,12 +45,27 @@ Global
 		{FEE8F666-8C64-4E4E-8A99-5A5DF4F2085D}.Shipping|Win32.Build.0 = Shipping_Game|Win32
 		{FEE8F666-8C64-4E4E-8A99-5A5DF4F2085D}.Shipping|Win64.ActiveCfg = Shipping_Game|x64
 		{FEE8F666-8C64-4E4E-8A99-5A5DF4F2085D}.Shipping|Win64.Build.0 = Shipping_Game|x64
+		{B1A3790E-DA51-472F-B3BD-417898728013}.DebugGame Editor|Win32.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.DebugGame Editor|Win32.Build.0 = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.DebugGame Editor|Win64.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.DebugGame|Win32.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.DebugGame|Win32.Build.0 = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.DebugGame|Win64.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Development Editor|Win32.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Development Editor|Win32.Build.0 = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Development Editor|Win64.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Development|Win32.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Development|Win32.Build.0 = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Development|Win64.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Shipping|Win32.ActiveCfg = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Shipping|Win32.Build.0 = BuiltWithUnrealBuildTool|Win32
+		{B1A3790E-DA51-472F-B3BD-417898728013}.Shipping|Win64.ActiveCfg = BuiltWithUnrealBuildTool|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B1A3790E-DA51-472F-B3BD-417898728013} = {13D4FBCC-70D8-4E7A-A10E-DB10A229E731}
 		{FEE8F666-8C64-4E4E-8A99-5A5DF4F2085D} = {2A336EC5-A0BC-454E-A923-53B5E658CC27}
+		{B1A3790E-DA51-472F-B3BD-417898728013} = {13D4FBCC-70D8-4E7A-A10E-DB10A229E731}
 	EndGlobalSection
 EndGlobal
