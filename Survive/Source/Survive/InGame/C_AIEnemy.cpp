@@ -19,7 +19,8 @@ void UC_AIEnemy::TickComponent( float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	FollowPlayerDirectly(DeltaTime);
+	UNavigationSystem::SimpleMoveToLocation(enemy->GetController(), player->GetActorLocation());
+	//FollowPlayerDirectly(DeltaTime);
 }
 
 void UC_AIEnemy::FollowPlayerDirectly(float DeltaTime)

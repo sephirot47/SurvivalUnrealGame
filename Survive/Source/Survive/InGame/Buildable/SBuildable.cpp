@@ -46,12 +46,6 @@ void ASBuildable::OnBuilt()
 	ChangeMaterial(onBuiltMaterial);
 	currentState = Built;
 	SetCollidableWithPlayer(true);
-
-	if (lastState == BuildableState::Building) //If a building was moved/rotated
-	{
-		//Need to recalculate the WHOLE waypoint graph TT
-		WayPointManager::RecalculateWaypointGraph(GetWorld()); 
-	}
 }
 
 void ASBuildable::OnPointingOver()
@@ -64,9 +58,6 @@ void ASBuildable::OnPointingOver()
 void ASBuildable::OnDestroy()
 {
 	this->Destroy();
-
-	//FIX: Dont think this work, here the actor isnt destroyed at all I think >.<
-	WayPointManager::RecalculateWaypointGraph(GetWorld()); //Recalculate the graph, some waypoints won't exist anymore
 }
 
 BuildableState ASBuildable::GetCurrentState()

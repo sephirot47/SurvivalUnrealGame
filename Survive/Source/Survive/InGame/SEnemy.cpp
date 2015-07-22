@@ -7,7 +7,7 @@ ASEnemy::ASEnemy()
 	
 	maxLife = 100.0f;
 	life = maxLife;
-	speed = 1.0f;
+	speed = 0.5f;
 }
 
 void ASEnemy::BeginPlay()

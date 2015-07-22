@@ -6,13 +6,6 @@
 #include "../Buildable/SBuildable.h"
 #include "C_SPlayerBuildManager.generated.h"
 
-//NO MIRAR
-// GOD DON'T YOU KILL ME FOR THIS
-//Esto se sabe mirando el archivo Config/DefaultEngine.ini, y encontrado la línea donde está definido :)
-#define PlayerMovingTraceChannel   ECC_GameTraceChannel1
-#define PlayerPointingTraceChannel ECC_GameTraceChannel4
-//
-
 
 UENUM(BlueprintType)
 enum PlayerBuildingState

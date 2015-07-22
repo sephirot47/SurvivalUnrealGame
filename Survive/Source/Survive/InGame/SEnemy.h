@@ -8,17 +8,16 @@ class SURVIVE_API ASEnemy : public ACharacter
 {
 	GENERATED_BODY()
 
-private:
-	float maxLife, life;
-	float speed;
-	
 public:
 	ASEnemy();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float maxLife;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float life;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float speed;
 
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
 	
 	float GetMaxLife() { return maxLife; }
 	float GetLife() { return life; }

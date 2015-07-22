@@ -11,3 +11,11 @@
 #include "Runtime/UMG/Public/IUMGModule.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
+//Defined in Survive.h
+#define BuildableObjectType ECC_GameTraceChannel2
+//Defined in Survive.h
+#define PlayerPointingTraceChannel ECC_GameTraceChannel4
+//Defined in Survive.h
+#define PlayerMovingTraceChannel   ECC_GameTraceChannel1
+
+
