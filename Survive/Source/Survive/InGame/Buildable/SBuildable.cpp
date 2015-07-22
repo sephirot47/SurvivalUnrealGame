@@ -24,7 +24,6 @@ void ASBuildable::BeginPlay()
 		mesh->OnComponentBeginOverlap.AddDynamic(this, &ASBuildable::OnBeginOverlap);
 		mesh->OnComponentEndOverlap.AddDynamic(this, &ASBuildable::OnEndOverlap);
 	}
-	//
 }
 
 void ASBuildable::Tick( float DeltaTime )
@@ -42,9 +41,17 @@ void ASBuildable::OnBuilding()
 
 void ASBuildable::OnBuilt()
 {
+	BuildableState lastState = currentState;
+
 	ChangeMaterial(onBuiltMaterial);
 	currentState = Built;
 	SetCollidableWithPlayer(true);
+
+	if (lastState == BuildableState::Building) //If a building was moved/rotated
+	{
+		//Need to recalculate the WHOLE waypoint graph TT
+		WayPointManager::RecalculateWaypointGraph(GetWorld()); 
+	}
 }
 
 void ASBuildable::OnPointingOver()
@@ -57,6 +64,9 @@ void ASBuildable::OnPointingOver()
 void ASBuildable::OnDestroy()
 {
 	this->Destroy();
+
+	//FIX: Dont think this work, here the actor isnt destroyed at all I think >.<
+	WayPointManager::RecalculateWaypointGraph(GetWorld()); //Recalculate the graph, some waypoints won't exist anymore
 }
 
 BuildableState ASBuildable::GetCurrentState()
@@ -83,7 +93,7 @@ void ASBuildable::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveCompo
 void ASBuildable::OnEndOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	--overlaps;
-	if (overlaps == 0 && currentState == Building) ChangeMaterial(lastMaterial);
+	if (overlaps == 0 && currentState == Building) ChangeMaterial(onBuildingMaterial);
 }
 
 
@@ -93,4 +103,16 @@ void ASBuildable::SetCollidableWithPlayer(bool collidableWithPlayer)
 	GetComponents<UStaticMeshComponent>(meshes);
 	for (UStaticMeshComponent *mesh : meshes)
 		mesh->SetCollisionResponseToChannel(ECC_Pawn, collidableWithPlayer ? ECR_Block : ECR_Overlap);
+}
+
+void ASBuildable::AddWaypointsToArray(TArray<FVector>& wpArray)
+{
+	TArray<AActor*> children;
+	this->GetAttachedActors(children);
+	for (int i = 0; i < children.Num(); ++i)
+	{
+		AActor* child = children[i];
+		ATargetPoint *waypoint = Cast<ATargetPoint>(child);
+		if (waypoint) wpArray.Add(waypoint->GetActorLocation());
+	}
 }

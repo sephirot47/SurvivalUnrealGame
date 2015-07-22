@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "../../WayPointManager.h"
 #include "SBuildable.generated.h"
 
 UENUM(BlueprintType)
@@ -27,7 +28,7 @@ private:
 	UMaterial *lastMaterial;
 
 	BuildableState currentState;
-	
+
 	float rotationSpeed;
 	int overlaps;
 
@@ -63,6 +64,8 @@ public:
 		void OnEndOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	void SetCollidableWithPlayer(bool collidableWithPlayer);
+
+	void AddWaypointsToArray(TArray<FVector>& wpArray); //Return all the waypoints of this buildable to the array wpArray
 
 	inline bool CanBeBuilt() { return !IsOverlapping(); }
 	inline float GetRotationSpeed() { return rotationSpeed; }
