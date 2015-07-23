@@ -71,7 +71,7 @@ void UC_SPlayerBuildManager::FillTargetInfo()
 	else channel = PlayerMovingTraceChannel;
 
 	FHitResult hitResult;
-	if (Trace(ignoredActors, traceStart, traceEnd, hitResult, channel)) 
+	if ( SUtils::Trace(ignoredActors, traceStart, traceEnd, hitResult, channel) ) 
 	{
 		//Hitting something!
 		targetPoint = hitResult.Location;
@@ -166,22 +166,4 @@ void UC_SPlayerBuildManager::OnBuildingsMenuItemSelected(TSubclassOf<ASBuildable
 PlayerBuildingState UC_SPlayerBuildManager::GetCurrentBuildingState()
 {
 	return currentState;
-}
-
-
-FORCEINLINE bool UC_SPlayerBuildManager::Trace(TArray<AActor*> &actorsToIgnore,
-												const FVector& Start, const FVector& End, FHitResult& HitOut,
-												ECollisionChannel TraceChannel)
-{
-	FCollisionQueryParams TraceParams(FName(TEXT("VictoreCore Trace")), true);
-	TraceParams.bTraceComplex = false; //En principio, colliders simples
-	TraceParams.bReturnPhysicalMaterial = false;
-	TraceParams.AddIgnoredActors(actorsToIgnore);
-	HitOut = FHitResult(ForceInit);
-
-	TObjectIterator< APlayerController > pc;
-	if (!pc) return false;
-
-	pc->GetWorld()->LineTraceSingleByChannel(HitOut, Start, End, TraceChannel, TraceParams);
-	return (HitOut.GetActor() != NULL);
 }

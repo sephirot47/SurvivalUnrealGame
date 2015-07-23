@@ -58,7 +58,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Player Building State")
 		PlayerBuildingState GetCurrentBuildingState();
-
-	FORCEINLINE bool Trace(TArray<AActor*> &actorsToIgnore,
-						   const FVector& Start, const FVector& End, FHitResult& HitOut, ECollisionChannel TraceChannel);
 };

@@ -14,20 +14,11 @@ void UC_AIEnemy::BeginPlay()
 	player = Cast<ASPlayer>( GetWorld()->GetFirstPlayerController()->GetCharacter() );
 }
 
-
 void UC_AIEnemy::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
 	UNavigationSystem::SimpleMoveToLocation(enemy->GetController(), player->GetActorLocation());
-	//FollowPlayerDirectly(DeltaTime);
 }
 
-void UC_AIEnemy::FollowPlayerDirectly(float DeltaTime)
-{
-	FVector dirToPlayer = player->GetActorLocation() - enemy->GetActorLocation(); dirToPlayer.Z = 0;
-	FVector movement = dirToPlayer * enemy->GetSpeed() * DeltaTime;
-	enemy->AddMovementInput( movement );
-	enemy->SetActorRotation( dirToPlayer.Rotation() );
-}
 

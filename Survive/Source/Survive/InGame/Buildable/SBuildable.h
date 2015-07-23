@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "../IDamageable.h"
 #include "SBuildable.generated.h"
 
 UENUM(BlueprintType)

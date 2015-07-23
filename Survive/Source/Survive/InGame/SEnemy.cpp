@@ -7,7 +7,7 @@ ASEnemy::ASEnemy()
 	
 	maxLife = 100.0f;
 	life = maxLife;
-	speed = 0.5f;
+	attackRange = 100.0f;
 }
 
 void ASEnemy::BeginPlay()

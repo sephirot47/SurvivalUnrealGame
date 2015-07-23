@@ -10,6 +10,7 @@
 #include "Runtime/UMG/Public/Slate/SObjectWidget.h"
 #include "Runtime/UMG/Public/IUMGModule.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
+#include "SUtils.h"
 
 //Defined in Survive.h
 #define BuildableObjectType ECC_GameTraceChannel2
@@ -17,5 +18,3 @@
 #define PlayerPointingTraceChannel ECC_GameTraceChannel4
 //Defined in Survive.h
 #define PlayerMovingTraceChannel   ECC_GameTraceChannel1
-
-
