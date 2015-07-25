@@ -11,14 +11,7 @@ class SURVIVE_API ASEnemy : public ACharacter
 public:
 	ASEnemy();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float maxLife;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float life;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float attackRange;
-
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-	
-	float GetMaxLife() { return maxLife; }
-	float GetLife() { return life; }
 };

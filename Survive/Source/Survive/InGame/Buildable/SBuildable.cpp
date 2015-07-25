@@ -10,6 +10,9 @@ ASBuildable::ASBuildable()
 	currentState = Built;
 	overlaps = 0;
 	rotationSpeed = -3.0f;
+
+	maxLife = 100.0f;
+	life = maxLife;
 }
 
 void ASBuildable::BeginPlay()
@@ -29,17 +32,23 @@ void ASBuildable::BeginPlay()
 void ASBuildable::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	if (life <= 0.0f)
+	{
+		//this->Destroy();
+		OnDestroy(); //Fix: destroy after a bit of time has passed
+	}
 }
 
 
-void ASBuildable::OnBuilding()
+void ASBuildable::OnBuilding_Implementation()
 {
 	ChangeMaterial(onBuildingMaterial);
 	currentState = Building;
 	SetCollidableWithPlayer(false);
 }
 
-void ASBuildable::OnBuilt()
+void ASBuildable::OnBuilt_Implementation()
 {
 	BuildableState lastState = currentState;
 
@@ -48,16 +57,15 @@ void ASBuildable::OnBuilt()
 	SetCollidableWithPlayer(true);
 }
 
-void ASBuildable::OnPointingOver()
+void ASBuildable::OnPointingOver_Implementation()
 {
 	ChangeMaterial(onPointingOverMaterial);
 	currentState = PointingOver;
 	SetCollidableWithPlayer(true);
 }
 
-void ASBuildable::OnDestroy()
+void ASBuildable::OnDestroy_Implementation()
 {
-	this->Destroy();
 }
 
 BuildableState ASBuildable::GetCurrentState()
@@ -96,14 +104,13 @@ void ASBuildable::SetCollidableWithPlayer(bool collidableWithPlayer)
 		mesh->SetCollisionResponseToChannel(ECC_Pawn, collidableWithPlayer ? ECR_Block : ECR_Overlap);
 }
 
-void ASBuildable::AddWaypointsToArray(TArray<FVector>& wpArray)
+void ASBuildable::ReceiveDamage(AActor* originActor, float damage)
 {
-	TArray<AActor*> children;
-	this->GetAttachedActors(children);
-	for (int i = 0; i < children.Num(); ++i)
-	{
-		AActor* child = children[i];
-		ATargetPoint *waypoint = Cast<ATargetPoint>(child);
-		if (waypoint) wpArray.Add(waypoint->GetActorLocation());
-	}
+	life -= damage;
+	OnReceiveDamage(originActor, damage);
+}
+
+void ASBuildable::OnReceiveDamage_Implementation(AActor* originActor, float damage)
+{
+
 }

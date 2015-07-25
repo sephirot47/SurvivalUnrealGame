@@ -4,10 +4,6 @@
 ASEnemy::ASEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
-	maxLife = 100.0f;
-	life = maxLife;
-	attackRange = 100.0f;
 }
 
 void ASEnemy::BeginPlay()

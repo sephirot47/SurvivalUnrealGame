@@ -2,19 +2,29 @@
 
 #include "Components/ActorComponent.h"
 #include "SEnemy.h"
+#include "../InGame/IDamageReceiver.h"
 #include "../InGame/Player/SPlayer.h"
 #include "../InGame/Buildable/SBuildable.h"
 #include "C_CombatEnemy.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class SURVIVE_API UC_CombatEnemy : public UActorComponent
+class SURVIVE_API UC_CombatEnemy : public UActorComponent, public IDamageReceiver
 {
 	GENERATED_BODY()
 
 private:
 	ASEnemy *enemy;
 	ASPlayer *player;
+
+
+	UPROPERTY(EditAnywhere, Category = "Stats") float maxLife;
+	UPROPERTY(EditAnywhere, Category = "Stats") float life;
+	UPROPERTY(EditAnywhere, Category = "Stats") float attack; //Attack force
+	UPROPERTY(EditAnywhere, Category = "Stats") float attackRate; //Times the enemy attacks per second
+	UPROPERTY(EditAnywhere, Category = "Stats") float attackRange; //Maximum distance from enemy to player to attack
+
+	float timeLastAttack;
 
 public:	
 	UC_CombatEnemy();
@@ -25,4 +35,7 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+
+	virtual void Attack(IDamageReceiver *damageReceiver);
+	virtual void ReceiveDamage(AActor* originActor, float damage) override;
 };
