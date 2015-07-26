@@ -75,11 +75,14 @@ BuildableState ASBuildable::GetCurrentState()
 
 void ASBuildable::ChangeMaterial(UMaterial *material)
 {
-	TArray<UStaticMeshComponent*> meshes;
-	GetComponents<UStaticMeshComponent>(meshes);
+	TArray<UMeshComponent*> meshes;
+	GetComponents<UMeshComponent>(meshes);
 
 	if (meshes.Num() > 0) lastMaterial = meshes[0]->GetMaterial(0)->GetMaterial();
-	for (UStaticMeshComponent *mesh : meshes) mesh->SetMaterial(0, material);
+	for (UMeshComponent *mesh : meshes)
+	{
+		for (int i = 0; i < mesh->GetNumMaterials(); ++i) mesh->SetMaterial(i, material);
+	}
 }
 
 void ASBuildable::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
