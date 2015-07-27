@@ -67,6 +67,7 @@ void ASBuildable::OnPointingOver_Implementation()
 
 void ASBuildable::OnDestroy_Implementation()
 {
+	this->Destroy();
 }
 
 BuildableState ASBuildable::GetCurrentState()
