@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "../Buildable/SBuildable.h"
+#include "../../Buildable/SBuildable.h"
 #include "C_SPlayerBuildManager.generated.h"
 
 

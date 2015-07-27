@@ -6,7 +6,7 @@ ASWeapon::ASWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	attack = 5.0f;
+	damage = 5.0f;
 	weight = 0.1f;
 }
 

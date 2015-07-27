@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../InGame/Player/SPlayer.h"
+#include "../../InGame/Characters/Player/SPlayer.h"
 #include "GameFramework/GameState.h"
 #include "SGameState.generated.h"
 

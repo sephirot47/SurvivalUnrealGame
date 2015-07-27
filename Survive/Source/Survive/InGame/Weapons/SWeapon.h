@@ -10,7 +10,7 @@ class SURVIVE_API ASWeapon : public AActor
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Combat) float attack; //The power of every hit/shot bullet of this weapon
+	UPROPERTY(EditAnywhere, Category = Combat) float damage; //The power of every hit/shot bullet of this weapon
 	UPROPERTY(EditAnywhere, Category = Combat) float weight; //The weight of this weapon. Goes from 0 to 1. (0=no slow down), (1=you cant move carrying this weapon)
 
 public:	
@@ -24,6 +24,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Combat) 
 		virtual void OnSuccessfulWeaponUse(); //Called every time this weapon is successfully used
 
-	float GetAttack() { return attack; }
+	float GetDamage() { return damage; }
 	float GetWeight() { return weight; }
 };

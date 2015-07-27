@@ -2,10 +2,9 @@
 
 #include "Components/ActorComponent.h"
 #include "SEnemy.h"
-#include "../InGame/Player/SPlayer.h"
-#include "../InGame/Buildable/SBuildable.h"
+#include "../Player/SPlayer.h"
+#include "../../Buildable/SBuildable.h"
 #include "C_AIEnemy.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SURVIVE_API UC_AIEnemy : public UActorComponent

@@ -113,6 +113,7 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 			{
 				currentState = PlayerBuildingState::Pointing;
 				targetBuildable->OnBuilt();
+				rotateInputDown = false;
 			}
 		}
 	}
@@ -121,11 +122,17 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 //This function adds the left click input for when you want to put the buildable, but not for moving it
 void UC_SPlayerBuildManager::OnInputPutBuildable()
 {
-	OnInputMoveBuildable();
+	if (currentState == PlayerBuildingState::Moving) OnInputMoveBuildable();
 }
 
-void UC_SPlayerBuildManager::OnInputRotateBuildableDown() { rotateInputDown = true; }
-void UC_SPlayerBuildManager::OnInputRotateBuildableUp() { rotateInputDown = false; }
+void UC_SPlayerBuildManager::OnInputRotateBuildableDown() 
+{
+	if (currentState == PlayerBuildingState::Moving) rotateInputDown = true;
+}
+void UC_SPlayerBuildManager::OnInputRotateBuildableUp() 
+{
+	rotateInputDown = false;
+}
 
 void UC_SPlayerBuildManager::RotateTargetBuildable()
 {
@@ -141,7 +148,7 @@ void UC_SPlayerBuildManager::RotateTargetBuildable()
 
 void UC_SPlayerBuildManager::OnInputRemoveBuildable() 
 {
-	if (targetBuildable && targetPoint != FVector::ZeroVector)
+	if (targetBuildable && targetPoint != FVector::ZeroVector && currentState == PlayerBuildingState::Moving)
 	{
 		targetBuildable->OnDestroy();
 		currentState = PlayerBuildingState::Pointing;

@@ -2,9 +2,9 @@
 
 #include "Components/ActorComponent.h"
 #include "SEnemy.h"
-#include "../InGame/IDamageReceiver.h"
-#include "../InGame/Player/SPlayer.h"
-#include "../InGame/Buildable/SBuildable.h"
+#include "../IDamageReceiver.h"
+#include "../Player/SPlayer.h"
+#include "../../Buildable/SBuildable.h"
 #include "C_CombatEnemy.generated.h"
 
 
