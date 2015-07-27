@@ -12,6 +12,16 @@ enum BuildableState
 	PointingOver     //When the player is pointing this building
 };
 
+UENUM(BlueprintType)
+enum BuildableMaterial
+{
+	BuildingMaterial,
+	WrongBuildingMaterial,
+	BuiltMaterial,
+	PointingOverMaterial,
+	SelectedMaterial
+};
+
 UCLASS()
 class SURVIVE_API ASBuildable : public AActor, public IDamageReceiver
 {
@@ -19,26 +29,29 @@ class SURVIVE_API ASBuildable : public AActor, public IDamageReceiver
 	
 private:
 
-	UPROPERTY(EditAnywhere) UMaterial *onBuildingMaterial;
-	UPROPERTY(EditAnywhere) UMaterial *onWrongBuildingMaterial;
-	UPROPERTY(EditAnywhere) UMaterial *onBuiltMaterial;
-	UPROPERTY(EditAnywhere) UMaterial *onPointingOverMaterial;
-	UPROPERTY(EditAnywhere) UMaterial *onSelectedMaterial;
-
-	UMaterial *lastMaterial;
-
+	BuildableMaterial currentMaterial;
 	BuildableState currentState;
 
-	float rotationSpeed;
-	int overlaps;
+	UPROPERTY(EditAnywhere, Category = "Material") FColor colorBuildingMaterial;
+	UPROPERTY(EditAnywhere, Category = "Material") FColor colorWrongBuildingMaterial;
+	UPROPERTY(EditAnywhere, Category = "Material") FColor colorBuiltMaterial;
+	UPROPERTY(EditAnywhere, Category = "Material") FColor colorPointingOverMaterial;
+	UPROPERTY(EditAnywhere, Category = "Material") FColor colorSelectedMaterial;
 
-	void ChangeMaterial(UMaterial *material);
-	bool IsOverlapping() { return overlaps > 0; }
+	float rotationSpeed;
+	bool isOverlapping;
+
+	FLinearColor GetCurrentMaterialColor();
+	void ChangeMaterial(BuildableMaterial material);
+	void ApplyCurrentMaterialColors();
 
 public:	
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) float maxLife;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) float life;
+	//dynamicMaterial is set in the construction script of SBuildable
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Material") UMaterialInstanceDynamic *dynamicMaterialOpaque;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Material") UMaterialInstanceDynamic *dynamicMaterialTranslucent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float maxLife;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats") float life;
 
 	ASBuildable();
 
@@ -60,15 +73,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = BuildableState)
 		BuildableState GetCurrentState();
 
-	UFUNCTION()
-		void OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
-							bool bFromSweep, const FHitResult & SweepResult);
-	UFUNCTION()
-		void OnEndOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
 	void SetCollidableWithPlayer(bool collidableWithPlayer);
 
-	inline bool CanBeBuilt() { return !IsOverlapping(); }
+	inline bool CanBeBuilt() { return !isOverlapping; }
 	inline float GetRotationSpeed() { return rotationSpeed; }
 
 	virtual void ReceiveDamage(AActor* originActor, float damage) override;
