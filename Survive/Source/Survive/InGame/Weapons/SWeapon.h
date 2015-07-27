@@ -21,6 +21,8 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	virtual void Use(); //Try to use this weapon.
+	virtual bool CanBeUsed() { return true; }
+
 	UFUNCTION(BlueprintImplementableEvent, Category = Combat) 
 		virtual void OnSuccessfulWeaponUse(); //Called every time this weapon is successfully used
 
