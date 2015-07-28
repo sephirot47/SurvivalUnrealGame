@@ -2,6 +2,7 @@
 
 #include "Components/ActorComponent.h"
 #include "../../Weapons/SWeapon.h"
+#include "SPlayer.h"
 #include "C_SPlayerWeaponManager.generated.h"
 
 
@@ -11,12 +12,20 @@ class SURVIVE_API UC_SPlayerWeaponManager : public UActorComponent
 	GENERATED_BODY()
 
 private:
+
 	ASWeapon *currentWeapon;
+
+	ASPlayer *player;
 
 	void EquipWeapon(ASWeapon *weapon);
 	void UnEquipCurrentWeapon();
 
 public:	
+
+	//This is the socket where a weapon will 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Weapon")
+		FName weaponSocketName;
+
 	UC_SPlayerWeaponManager();
 
 	virtual void BeginPlay() override;

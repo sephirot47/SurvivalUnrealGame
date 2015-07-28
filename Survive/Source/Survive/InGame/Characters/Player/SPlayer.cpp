@@ -32,6 +32,13 @@ UC_SPlayerBuildManager* ASPlayer::GetBuildManager()
 	return components[0];
 }
 
+USkeletalMeshComponent* ASPlayer::GetSKMannequin()
+{
+	TArray<USkeletalMeshComponent*> comp;
+	GetComponents(comp);
+	return comp[0];
+}
+
 float ASPlayer::GetHealthPercent() 
 { 
 	return health / maxHealth;

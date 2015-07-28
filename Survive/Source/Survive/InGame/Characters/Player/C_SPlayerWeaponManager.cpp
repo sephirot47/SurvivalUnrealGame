@@ -11,6 +11,7 @@ UC_SPlayerWeaponManager::UC_SPlayerWeaponManager()
 void UC_SPlayerWeaponManager::BeginPlay()
 {
 	Super::BeginPlay();
+	player = Cast<ASPlayer>(GetOwner());
 }
 
 
@@ -22,6 +23,8 @@ void UC_SPlayerWeaponManager::TickComponent( float DeltaTime, ELevelTick TickTyp
 void UC_SPlayerWeaponManager::EquipWeapon(ASWeapon *weapon)
 {
 	currentWeapon = weapon;
+	weapon->AttachRootComponentTo(player->GetSKMannequin(), weaponSocketName);
+	player->MoveIgnoreActorAdd(currentWeapon);
 }
 
 void UC_SPlayerWeaponManager::UnEquipCurrentWeapon()

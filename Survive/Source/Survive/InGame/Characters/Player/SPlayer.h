@@ -23,6 +23,9 @@ public:
 
 	UC_SPlayerBuildManager*  GetBuildManager();
 
+	UFUNCTION(BlueprintCallable, Category = SK_Mesh)
+		USkeletalMeshComponent* GetSKMannequin();
+
 	UFUNCTION(BlueprintCallable, Category = Stats) 
 	float GetHealthPercent();
 };
