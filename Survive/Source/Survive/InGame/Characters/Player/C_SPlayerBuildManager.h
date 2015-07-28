@@ -55,7 +55,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player Building Target")
 		void FillTargetInfo();
 
-
 	UFUNCTION(BlueprintCallable, Category = "Player Building State")
 		PlayerBuildingState GetCurrentBuildingState();
 };

@@ -31,19 +31,27 @@ void ASGameState::BeginPlay()
 
 void ASGameState::OnInput_OpenBuildingsMenu()
 {
-	if (currentState == GameFlowState::BuildingsMenu) SetCurrentGameFlowState(GameFlowState::Playing);
+	if (currentState != GameFlowState::BuildingsMenu)
+	{
+		//if (player->GetBuildManager()->GetCurrentBuildingState() != PlayerBuildingState::Moving)
+		SetCurrentGameFlowState(GameFlowState::BuildingsMenu);
+	}
 	else
 	{
-		if (player->GetBuildManager()->GetCurrentBuildingState() == PlayerBuildingState::Moving)
-		{}
-		else SetCurrentGameFlowState(GameFlowState::BuildingsMenu);
+		SetCurrentGameFlowState(GameFlowState::Playing);
 	}
 }
 
 void ASGameState::OnInput_OpenInventory()
 {
-	if (currentState == GameFlowState::Inventory) SetCurrentGameFlowState(GameFlowState::Playing);
-	else SetCurrentGameFlowState(GameFlowState::Inventory);
+	if (currentState != GameFlowState::Inventory)
+	{
+		SetCurrentGameFlowState(GameFlowState::Inventory);
+	}
+	else
+	{
+		SetCurrentGameFlowState(GameFlowState::Playing);
+	}
 }
 
 void ASGameState::OnInput_GoBack()
@@ -69,11 +77,11 @@ GameFlowState ASGameState::GetCurrentGameFlowState() { return currentState; }
 
 void ASGameState::OnInput_PauseGame()
 {
-	if (currentState == GameFlowState::Playing)
+	if (currentState != GameFlowState::Paused)
 	{
 		SetCurrentGameFlowState(GameFlowState::Paused);
 	}
-	else if (currentState == GameFlowState::Paused)
+	else
 	{
 		SetCurrentGameFlowState(GameFlowState::Playing);
 	}

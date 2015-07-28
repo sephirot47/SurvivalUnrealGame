@@ -23,6 +23,12 @@ struct FWeaponItemDB
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 		TSubclassOf<ASWeapon> weaponClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+		int32 totalAmmoOutOfSlot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+		int32 ammoInSlot;
 };
 
 UCLASS()
@@ -39,8 +45,7 @@ public:
 
 	AWeaponDB();
 
-
-	UFUNCTION(BlueprintCallable, Category = "Building Items")
+	UFUNCTION(BlueprintCallable, Category = "Weapon Items")
 		TSubclassOf<ASWeapon> GetWeaponClassFromId(int32 id);
 
 	virtual void BeginPlay() override;
