@@ -23,7 +23,7 @@ void UC_SPlayerWeaponManager::TickComponent( float DeltaTime, ELevelTick TickTyp
 void UC_SPlayerWeaponManager::EquipWeapon(ASWeapon *weapon)
 {
 	currentWeapon = weapon;
-	weapon->AttachRootComponentTo(player->GetSKMannequin(), weaponSocketName);
+	weapon->AttachRootComponentTo(player->GetArms(), weaponSocketName);
 	player->MoveIgnoreActorAdd(currentWeapon);
 }
 

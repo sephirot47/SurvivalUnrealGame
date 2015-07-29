@@ -32,7 +32,7 @@ UC_SPlayerBuildManager* ASPlayer::GetBuildManager()
 	return components[0];
 }
 
-USkeletalMeshComponent* ASPlayer::GetSKMannequin()
+USkeletalMeshComponent* ASPlayer::GetArms()
 {
 	TArray<USkeletalMeshComponent*> comp;
 	GetComponents(comp);

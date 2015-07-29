@@ -5,6 +5,8 @@ UC_SPlayerMovement::UC_SPlayerMovement()
 {
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
+
+	pitch = 0.0f;
 }
 
 
@@ -12,7 +14,8 @@ void UC_SPlayerMovement::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player = Cast<ACharacter>( GetOwner() );
+	player = Cast<ASPlayer>(GetOwner());
+	arms = player->GetArms();
 
 	//Inputs ////////////////
 	GetOwner()->InputComponent->BindAxis("MoveX", this, &UC_SPlayerMovement::HandleMoveX);
@@ -45,6 +48,7 @@ void UC_SPlayerMovement::HandleTurnX(float v)
 
 void UC_SPlayerMovement::HandleTurnY(float v)
 {
-	player->AddControllerPitchInput(v);
+	FVector rot = FVector(0.0f, v, 0.0f);
+	if (arms != nullptr) arms->AddRelativeRotation( FQuat::MakeFromEuler(rot) );
 }
 

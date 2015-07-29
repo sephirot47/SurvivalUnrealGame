@@ -16,9 +16,6 @@ struct FBuildingItemDB
 		FString description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-		int32 id;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 		UTexture2D *thumbnail;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
@@ -37,9 +34,6 @@ public:
 		TArray<FBuildingItemDB> buildingItems;
 
 	ABuildingsDB();
-	
-	UFUNCTION(BlueprintCallable, Category = "Building Items")
-		TSubclassOf<ASBuildable> GetBuildingClassFromId(int32 id);
 
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;

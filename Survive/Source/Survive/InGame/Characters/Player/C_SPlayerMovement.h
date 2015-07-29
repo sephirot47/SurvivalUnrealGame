@@ -12,11 +12,14 @@ class SURVIVE_API UC_SPlayerMovement : public UActorComponent
 	GENERATED_BODY()
 
 private:
-	ACharacter *player;
+	ASPlayer *player;
 
 public:
 
 	UC_SPlayerMovement();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Rotation")
+		USkeletalMeshComponent *arms;
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

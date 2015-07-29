@@ -16,9 +16,6 @@ struct FWeaponItemDB
 		FString description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-		int32 id;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 		UTexture2D *thumbnail;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
@@ -44,9 +41,6 @@ public:
 		TArray<FWeaponItemDB> weaponItems;
 
 	AWeaponDB();
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon Items")
-		TSubclassOf<ASWeapon> GetWeaponClassFromId(int32 id);
 
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
