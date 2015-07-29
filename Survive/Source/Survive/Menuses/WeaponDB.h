@@ -21,10 +21,10 @@ struct FWeaponItemDB
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 		TSubclassOf<ASWeapon> weaponClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponStats")
 		int32 totalAmmoOutOfSlot;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponStats")
 		int32 ammoInSlot;
 };
 

@@ -9,5 +9,5 @@ public:
 
 	static AActor* Trace(TArray<AActor*> &actorsToIgnore, const FVector& Start, const FVector& End);
 	static AActor* Trace(TArray<AActor*> &actorsToIgnore, const FVector& Start, const FVector& End, ECollisionChannel TraceChannel);
-	static bool MultiTrace(TArray<AActor*> &actorsToIgnore, const FVector& Start, const FVector& End, TArray<FHitResult>& HitsOut, TArray<AActor*> actorsHit);
+	static bool MultiTrace(TArray<AActor*> &actorsToIgnore, const FVector& Start, const FVector& End, TArray<FHitResult>& HitsOut, TArray<AActor*>& actorsHit);
 };

@@ -9,15 +9,10 @@ ASWeaponReloadable::ASWeaponReloadable()
 	currentAmmo = 0;
 }
 
-ASWeaponReloadable::~ASWeaponReloadable()
-{
-
-}
-
 void ASWeaponReloadable::BeginPlay()
 {
 	Super::BeginPlay();
-
+	player->InputComponent->BindAction("Weapon Reload", IE_Pressed, this, &ASWeaponReloadable::Reload);
 }
 
 void ASWeaponReloadable::Tick(float DeltaTime)

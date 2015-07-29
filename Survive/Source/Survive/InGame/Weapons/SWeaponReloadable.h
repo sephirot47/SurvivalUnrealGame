@@ -21,7 +21,6 @@ protected:
 public:
 
 	ASWeaponReloadable();
-	~ASWeaponReloadable();
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;

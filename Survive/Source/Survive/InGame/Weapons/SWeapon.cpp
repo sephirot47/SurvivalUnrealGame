@@ -13,18 +13,15 @@ void ASWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	player = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetCharacter());
+
+	if (InputComponent) GEngine->AddOnScreenDebugMessage(1, 10.0f, FColor::Blue, TEXT("InputComponent Ok"));
+	else GEngine->AddOnScreenDebugMessage(2, 10.0f, FColor::Red, TEXT("InputComponent NUUUUUUUUUUUULLL"));
+	player->InputComponent->BindAction("Weapon Use", IE_Pressed, this, &ASWeapon::Use);
 }
 
 void ASWeapon::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	TArray<IDamageReceiver*> hits = GetTracedActors();
-	GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::White, FString::FromInt(hits.Num()));
-	int i = 100;
-	for (IDamageReceiver* hit : hits)
-	{
-		GEngine->AddOnScreenDebugMessage(++i, 0.1f, FColor::White, Cast<AActor>(hit)->GetName());
-	}
 }
 
 TArray<IDamageReceiver*> ASWeapon::GetTracedActors()
@@ -41,10 +38,8 @@ TArray<IDamageReceiver*> ASWeapon::GetTracedActors()
 	SUtils::MultiTrace(ignoredActors, start, end, hits, actorsHit);
 
 	TArray<IDamageReceiver*> damageReceivers;
-	int i = 999;
 	for (AActor *actorHit : actorsHit)
 	{
-		GEngine->AddOnScreenDebugMessage(++i, 0.1f, FColor::Red, actorHit->GetName());
 		IDamageReceiver *damageReceiver = Cast<IDamageReceiver>(actorHit);
 		if (damageReceiver) damageReceivers.Add(damageReceiver);
 	}
@@ -56,4 +51,9 @@ void ASWeapon::Use()
 {
 	OnSuccessfulWeaponUse();
 
+	TArray<IDamageReceiver*> hits = GetTracedActors();
+	for (IDamageReceiver* hit : hits)
+	{
+		hit->ReceiveDamage(this, damage);
+	}
 }
