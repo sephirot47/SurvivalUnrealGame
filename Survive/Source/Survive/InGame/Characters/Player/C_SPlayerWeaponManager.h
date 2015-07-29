@@ -3,6 +3,7 @@
 #include "Components/ActorComponent.h"
 #include "../../Weapons/SWeapon.h"
 #include "SPlayer.h"
+#include "../../../SUtils.h"
 #include "C_SPlayerWeaponManager.generated.h"
 
 
@@ -22,7 +23,7 @@ private:
 
 public:	
 
-	//This is the socket where a weapon will 
+	//This is the socket where the weapon will attach
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Weapon")
 		FName weaponSocketName;
 

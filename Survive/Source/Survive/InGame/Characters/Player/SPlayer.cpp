@@ -25,6 +25,16 @@ void ASPlayer::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
+FVector ASPlayer::GetShootOrigin()
+{
+	return GetWorld()->GetFirstPlayerController()->PlayerCameraManager->GetCameraLocation();
+}
+
+FVector ASPlayer::GetForward()
+{
+	return GetWorld()->GetFirstPlayerController()->PlayerCameraManager->GetCameraRotation().Vector();
+}
+
 UC_SPlayerBuildManager* ASPlayer::GetBuildManager()
 {
 	TArray<UC_SPlayerBuildManager*> components;

@@ -21,10 +21,17 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	//Gets the point from where the player have to shoot
+	FVector GetShootOrigin();
+
+	//Gets the direction the player(camera) is facing to
+	FVector GetForward();
+
 	UC_SPlayerBuildManager*  GetBuildManager();
 
-	UFUNCTION(BlueprintCallable, Category = SK_Mesh) USkeletalMeshComponent* GetArms();
+	UFUNCTION(BlueprintCallable, Category = SK_Mesh) 
+		USkeletalMeshComponent* GetArms();
 
 	UFUNCTION(BlueprintCallable, Category = Stats) 
-	float GetHealthPercent();
+		float GetHealthPercent();
 };
