@@ -6,7 +6,7 @@ UC_SPlayerMovement::UC_SPlayerMovement()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
-	pitch = 0.0f;
+	pitchLimits = FVector2D(-170.0f, -10.0f);
 }
 
 
@@ -50,5 +50,11 @@ void UC_SPlayerMovement::HandleTurnY(float v)
 {
 	FVector rot = FVector(0.0f, v, 0.0f);
 	if (arms != nullptr) arms->AddRelativeRotation( FQuat::MakeFromEuler(rot) );
+
+	FVector currentRot = arms->GetRelativeTransform().GetRotation().Euler();
+	if (currentRot.X >= pitchLimits.Y) currentRot.X = pitchLimits.Y;
+	else if (currentRot.X <= pitchLimits.X) currentRot.X = pitchLimits.X;
+
+	arms->SetRelativeRotation(FQuat::MakeFromEuler(currentRot));
 }
 

@@ -14,6 +14,9 @@ class SURVIVE_API UC_SPlayerMovement : public UActorComponent
 private:
 	ASPlayer *player;
 
+	UPROPERTY(EditAnywhere, Category = "Rotation")
+		FVector2D pitchLimits;
+
 public:
 
 	UC_SPlayerMovement();
