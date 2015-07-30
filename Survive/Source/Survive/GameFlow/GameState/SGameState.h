@@ -8,7 +8,6 @@ UENUM(BlueprintType)
 enum GameFlowState
 {
 	Playing,
-	BuildingsMenu,
 	Inventory,
 	Paused
 };
@@ -22,7 +21,6 @@ private:
 	GameFlowState currentState;
 	ASPlayer *player;
 
-	void OnInput_OpenBuildingsMenu();
 	void OnInput_OpenInventory();
 	void OnInput_GoBack();
 	void OnInput_PauseGame();

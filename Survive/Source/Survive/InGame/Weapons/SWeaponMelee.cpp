@@ -3,15 +3,11 @@
 
 ASWeaponMelee::ASWeaponMelee()
 {
-	reloadTime = 2.0f;
-	slotAmmo = 10;
-	currentAmmo = 0;
 }
 
 void ASWeaponMelee::BeginPlay()
 {
 	Super::BeginPlay();
-	player->InputComponent->BindAction("Weapon Reload", IE_Pressed, this, &ASWeaponReloadable::Reload);
 }
 
 void ASWeaponMelee::Tick(float DeltaTime)

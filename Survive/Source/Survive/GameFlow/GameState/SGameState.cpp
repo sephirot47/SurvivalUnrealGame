@@ -14,9 +14,6 @@ void ASGameState::BeginPlay()
 	player = Cast<ASPlayer>(character);
 
 	FInputActionBinding *toggle;
-	toggle = &player->InputComponent->BindAction("Open Buildings Menu", IE_Pressed, this, &ASGameState::OnInput_OpenBuildingsMenu);
-	toggle->bExecuteWhenPaused = true;
-
 	toggle = &player->InputComponent->BindAction("Open Inventory", IE_Pressed, this, &ASGameState::OnInput_OpenInventory);
 	toggle->bExecuteWhenPaused = true;
 
@@ -27,19 +24,6 @@ void ASGameState::BeginPlay()
 	toggle->bExecuteWhenPaused = true; //EVEN THOUGH THE GAME IS PAUSED, CATCH THIS EVENT !!!! To be able to unpause hehe :)
 
 	SetCurrentGameFlowState(GameFlowState::Playing);
-}
-
-void ASGameState::OnInput_OpenBuildingsMenu()
-{
-	if (currentState != GameFlowState::BuildingsMenu)
-	{
-		//if (player->GetBuildManager()->GetCurrentBuildingState() != PlayerBuildingState::Moving)
-		SetCurrentGameFlowState(GameFlowState::BuildingsMenu);
-	}
-	else
-	{
-		SetCurrentGameFlowState(GameFlowState::Playing);
-	}
 }
 
 void ASGameState::OnInput_OpenInventory()
