@@ -18,6 +18,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Ammo) int32 slotAmmo; //The maximum ammo for slot
 	UPROPERTY(EditAnywhere, Category = Ammo) int32 currentAmmo; //The current ammo in the slot
 
+	//Trace in the direction the player(its camera actually) is facing, and return the array of AActors hit/overlapped
+	TArray<IDamageReceiver*> GetTracedActors();
+
 public:
 
 	ASWeaponReloadable();
