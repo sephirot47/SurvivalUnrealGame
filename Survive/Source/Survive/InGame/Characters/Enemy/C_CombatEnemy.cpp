@@ -7,8 +7,6 @@ UC_CombatEnemy::UC_CombatEnemy()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
-	maxLife = 100.0f;
-	life = maxLife;
 	attack = 10.0f;
 	attackRate = 3.0f;
 	attackRange = 10.0f;
@@ -35,14 +33,8 @@ void UC_CombatEnemy::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	{
 		if (timeLastAttack >= 1.0f / attackRate)
 		{
-			//GEngine->AddOnScreenDebugMessage(123, 1.0f, FColor::Blue, TEXT("Can't reach player"));
 			ASBuildable *buildable = GetBuildableInFront();
-			if (buildable)
-			{
-				//GEngine->AddOnScreenDebugMessage(124, 1.0f, FColor::Red, TEXT("DESTROY BUILDABLE!"));
-				Attack(buildable);
-			}
-			//else GEngine->AddOnScreenDebugMessage(125, 1.0f, FColor::Red, TEXT("No buildable :("));
+			if (buildable) Attack(buildable);
 		}
 	}
 }
@@ -64,9 +56,4 @@ void UC_CombatEnemy::Attack(IDamageReceiver *damageReceiver)
 	timeLastAttack = 0.0f;
 	damageReceiver->ReceiveDamage(enemy, attack);
 	GEngine->AddOnScreenDebugMessage(125, 1.0f, FColor::Red, TEXT("ATTACK!"));
-}
-
-void UC_CombatEnemy::ReceiveDamage(AActor* originActor, float damage)
-{
-	enemy->Destroy();
 }

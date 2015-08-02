@@ -1,12 +1,16 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "../IDamageReceiver.h"
 #include "SEnemy.generated.h"
 
 UCLASS()
-class SURVIVE_API ASEnemy : public ACharacter
+class SURVIVE_API ASEnemy : public ACharacter, public IDamageReceiver
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "Stats") float maxLife;
+	UPROPERTY(EditAnywhere, Category = "Stats") float life;
 
 public:
 	ASEnemy();
@@ -14,4 +18,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+
+	virtual void ReceiveDamage(AActor* originActor, float damage) override;
 };
