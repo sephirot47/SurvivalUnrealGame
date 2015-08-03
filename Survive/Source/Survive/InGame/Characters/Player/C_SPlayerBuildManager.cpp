@@ -11,6 +11,7 @@ UC_SPlayerBuildManager::UC_SPlayerBuildManager()
 	targetPoint = FVector::ZeroVector;
 
 	rotateInputDown = false;
+	buildableSelectionRange = 300.0f;
 }
 
 
@@ -31,7 +32,7 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	lastTargetBuildable = targetBuildable;
-	FillTargetInfo(); //Fill targetBuildable and targetPoint variables
+	FillTargetBuildableInfo(); //Fill targetBuildable and targetPoint variables
 
 	if (lastTargetBuildable && 
 		lastTargetBuildable != targetBuildable)
@@ -56,14 +57,14 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 	if (rotateInputDown) RotateTargetBuildable();
 }
 
-void UC_SPlayerBuildManager::FillTargetInfo()
+void UC_SPlayerBuildManager::FillTargetBuildableInfo()
 {
 	TArray<AActor*> ignoredActors;
 	ignoredActors.Add(GetOwner()); //Ignore myself (he player)
 
 	APlayerCameraManager *camManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
 	FVector traceStart = camManager->GetCameraLocation();
-	FVector traceEnd = traceStart + camManager->GetCameraRotation().Vector() * 9999.9f;
+	FVector traceEnd = traceStart + camManager->GetCameraRotation().Vector() * buildableSelectionRange;
 	//DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor::Green, true, 1.0f);
 
 	ECollisionChannel channel;

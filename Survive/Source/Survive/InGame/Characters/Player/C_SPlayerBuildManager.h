@@ -35,6 +35,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Point")
 		FVector targetPoint;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Buildable")
+		float buildableSelectionRange;
+
+
 	UC_SPlayerBuildManager();
 
 	virtual void BeginPlay() override;
@@ -53,7 +57,7 @@ public:
 
 	//Fills the targetBuildable and targetPoint variables, tracing the rays and stuff
 	UFUNCTION(BlueprintCallable, Category = "Player Building Target")
-		void FillTargetInfo();
+		void FillTargetBuildableInfo();
 
 	UFUNCTION(BlueprintCallable, Category = "Player Building State")
 		PlayerBuildingState GetCurrentBuildingState();
