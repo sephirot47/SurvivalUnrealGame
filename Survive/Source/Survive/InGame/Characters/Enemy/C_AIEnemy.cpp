@@ -17,7 +17,6 @@ void UC_AIEnemy::BeginPlay()
 void UC_AIEnemy::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
 	UNavigationSystem::SimpleMoveToLocation(enemy->GetController(), player->GetActorLocation());
 }
 

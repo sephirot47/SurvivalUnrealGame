@@ -1,5 +1,6 @@
 #include "Survive.h"
 #include "C_CombatEnemy.h"
+#include "../../Buildable/SBuildable.h"
 
 
 UC_CombatEnemy::UC_CombatEnemy()
@@ -28,27 +29,33 @@ void UC_CombatEnemy::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	
 	timeLastAttack += DeltaTime;
 
+	TArray<ASPlayer*> playersFound;
+	SUtils::GetVisibleFrom<ASPlayer>(GetWorld(), enemy, playersFound, 700.0f, true);
+	if (playersFound.Num() > 0)
+	{
+		GEngine->AddOnScreenDebugMessage(7, 1.0f, FColor::White, TEXT("PLAYER VISIBLE"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(7, 1.0f, FColor::White, TEXT("PLAYER NOOOOOOT VISIBLE"));
+	}
+
 	//When the enemy can't reach the player, this means he has a buildable in front of him
 	if (enemy->GetVelocity().IsZero())
 	{
 		if (timeLastAttack >= 1.0f / attackRate)
 		{
-			ASBuildable *buildable = GetBuildableInFront();
+			ASBuildable *buildable = SUtils::GetClosestTo<ASBuildable>(GetWorld(), enemy);
 			if (buildable) Attack(buildable);
 		}
 	}
-}
 
-ASBuildable* UC_CombatEnemy::GetBuildableInFront()
-{
-	FVector start = enemy->GetActorLocation();
-	FVector end = enemy->GetActorForwardVector() * attackRange;
-	TArray<AActor*> ignore;
-	FHitResult hitResult;
-	AActor *actor = SUtils::Trace(ignore, start, end, PlayerPointingTraceChannel);
-	if (actor) GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Red, actor->GetName());
-	if (actor != nullptr) return Cast<ASBuildable>(actor);
-	return nullptr;
+	TArray<IDamageReceiver*> damageReceivers;
+	SUtils::GetAll_InARadiusOf<IDamageReceiver>(GetWorld(), enemy, 700.0f, damageReceivers, true);
+	for (int i = 0; i < damageReceivers.Num(); ++i)
+	{
+		AActor *actor = Cast<AActor>(damageReceivers[i]);
+	}
 }
 
 void UC_CombatEnemy::Attack(IDamageReceiver *damageReceiver)
