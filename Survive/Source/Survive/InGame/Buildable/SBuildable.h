@@ -80,6 +80,9 @@ public:
 
 	virtual void ReceiveDamage(AActor* originActor, float damage) override;
 
+	void OnOutOfPlayerBuildRange();
+	void OnInsideOfPlayerBuildRange();
+
 	UFUNCTION(BlueprintNativeEvent, Category = Damage)
 		void OnReceiveDamage(AActor* originActor, float damage);
 };

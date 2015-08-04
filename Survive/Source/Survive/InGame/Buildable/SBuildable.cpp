@@ -93,6 +93,8 @@ FLinearColor ASBuildable::GetCurrentMaterialColor()
 
 void ASBuildable::ChangeMaterial(BuildableMaterial material)
 {
+	if (currentMaterial == material) return;
+
 	currentMaterial = material;
 	ApplyCurrentMaterialColors();
 }
@@ -120,6 +122,16 @@ void ASBuildable::SetCollidableWithPlayer(bool collidableWithPlayer)
 
 	for (UMeshComponent *mesh : meshes)
 		mesh->SetCanEverAffectNavigation(collidableWithPlayer);
+}
+
+void ASBuildable::OnOutOfPlayerBuildRange()
+{
+	ChangeMaterial(WrongBuildingMaterial);
+}
+
+void ASBuildable::OnInsideOfPlayerBuildRange()
+{
+	ChangeMaterial(BuildingMaterial);
 }
 
 void ASBuildable::ReceiveDamage(AActor* originActor, float damage)

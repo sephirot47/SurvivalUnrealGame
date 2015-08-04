@@ -10,8 +10,8 @@
 UENUM(BlueprintType)
 enum PlayerBuildingState
 {
-	Pointing,
-	Moving
+	PointingBuildable,
+	MovingBuildable
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -23,6 +23,9 @@ class SURVIVE_API UC_SPlayerBuildManager : public UActorComponent
 	PlayerBuildingState currentState;
 
 	bool rotateInputDown;
+
+	bool BuildableInRange(ASBuildable *buildable);
+	bool BuildableInRange(const FVector &buildableLocation);
 
 public:
 

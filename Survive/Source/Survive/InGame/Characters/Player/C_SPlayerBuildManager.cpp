@@ -7,11 +7,11 @@ UC_SPlayerBuildManager::UC_SPlayerBuildManager()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
-	currentState = PlayerBuildingState::Pointing;
+	currentState = PlayerBuildingState::PointingBuildable;
 	targetPoint = FVector::ZeroVector;
 
 	rotateInputDown = false;
-	buildableSelectionRange = 300.0f;
+	buildableSelectionRange = 500.0f;
 }
 
 
@@ -35,23 +35,38 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 	FillTargetBuildableInfo(); //Fill targetBuildable and targetPoint variables
 
 	if (lastTargetBuildable && 
-		lastTargetBuildable != targetBuildable)
+		lastTargetBuildable != targetBuildable) //The buildable we were pointing isn't pointed anymore. Has to go from OnPointingOver to OnBuilt 
 	{
 		lastTargetBuildable->OnBuilt();
 	}
 
-	if (targetBuildable)
-	{ 
-		if (targetBuildable->GetCurrentState() == BuildableState::Built)
+	if ( targetBuildable && BuildableInRange(targetBuildable) ) //While pointing over a targetBuildable...
+	{
+		if (targetBuildable->GetCurrentState() == BuildableState::Built) //If it's the first frame we point to a buildable...
 			targetBuildable->OnPointingOver();
 	}
 
-	if (currentState == PlayerBuildingState::Moving)
+	if (currentState == PlayerBuildingState::MovingBuildable) //We are moving a buildable
 	{
-		if (targetBuildable)
+		if (targetBuildable) 
 		{
-			targetBuildable->SetActorLocation( targetPoint );
+			targetBuildable->SetActorLocation(targetPoint); //Move the buildable
+			if ( !BuildableInRange(targetPoint) )
+			{
+				//If it's not in range, notify the buildable, so it can do whatever it seems to it (aka coloring to red(wrong position))
+				targetBuildable->OnOutOfPlayerBuildRange();
+			}
+			else
+			{
+				//Otherwise, notify it too (the buildable will change its color to green)
+				targetBuildable->OnInsideOfPlayerBuildRange();
+			}
 		}
+	}
+	else if (currentState == PlayerBuildingState::PointingBuildable)
+	{
+		if (targetBuildable && !BuildableInRange(targetBuildable)) 
+			targetBuildable->OnBuilt();
 	}
 
 	if (rotateInputDown) RotateTargetBuildable();
@@ -64,11 +79,11 @@ void UC_SPlayerBuildManager::FillTargetBuildableInfo()
 
 	APlayerCameraManager *camManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
 	FVector traceStart = camManager->GetCameraLocation();
-	FVector traceEnd = traceStart + camManager->GetCameraRotation().Vector() * buildableSelectionRange;
+	FVector traceEnd = traceStart + camManager->GetCameraRotation().Vector() * 99999.9f;
 	//DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor::Green, true, 1.0f);
 
 	ECollisionChannel channel;
-	if (currentState == PlayerBuildingState::Pointing) channel = PlayerPointingTraceChannel;
+	if (currentState == PlayerBuildingState::PointingBuildable) channel = PlayerPointingTraceChannel;
 	else channel = PlayerMovingTraceChannel;
 
 	FHitResult hitResult;
@@ -78,7 +93,7 @@ void UC_SPlayerBuildManager::FillTargetBuildableInfo()
 		targetPoint = hitResult.Location;
 
 		//Only when Pointing. If we are Moving, we must not override targetBuildable 
-		if (currentState == PlayerBuildingState::Pointing)
+		if (currentState == PlayerBuildingState::PointingBuildable)
 		{
 			ASBuildable *buildable = Cast<ASBuildable>(hitResult.GetActor());
 			targetBuildable = buildable; //If the hit object is not a buildable, then the cast fails, hence buildable = nullptr :)
@@ -90,29 +105,31 @@ void UC_SPlayerBuildManager::FillTargetBuildableInfo()
 	{
 		targetPoint = FVector::ZeroVector;
 
-		if (currentState == PlayerBuildingState::Pointing)  targetBuildable = nullptr;
-		if (currentState == PlayerBuildingState::Moving && targetBuildable) targetBuildable->SetActorHiddenInGame(true);
+		if (currentState == PlayerBuildingState::PointingBuildable)  targetBuildable = nullptr;
+		if (currentState == PlayerBuildingState::MovingBuildable && targetBuildable) targetBuildable->SetActorHiddenInGame(true);
 	}
 }
 
 void UC_SPlayerBuildManager::OnInputMoveBuildable()
 {
-	if (currentState == PlayerBuildingState::Pointing)  //Start moving the buildable
+	if (!targetBuildable || !BuildableInRange(targetBuildable)) return;
+
+	if (currentState == PlayerBuildingState::PointingBuildable)  //Start moving the buildable
 	{
 		if (targetBuildable)
 		{
-			currentState = PlayerBuildingState::Moving;
+			currentState = PlayerBuildingState::MovingBuildable;
 			targetBuildable->OnBuilding();
 		}
 	}
-	else if (currentState == PlayerBuildingState::Moving) //Finished moving the buildable (confirmed new location)
+	else if (currentState == PlayerBuildingState::MovingBuildable) //Finished moving the buildable (confirmed new location)
 	{
 		//Si tiene targetBuildable y esta apuntando a algun sitio donde pueda ponerlo...
 		if (targetBuildable && targetPoint != FVector::ZeroVector)
 		{
 			if (targetBuildable->CanBeBuilt())
 			{
-				currentState = PlayerBuildingState::Pointing;
+				currentState = PlayerBuildingState::PointingBuildable;
 				targetBuildable->OnBuilt();
 				rotateInputDown = false;
 			}
@@ -120,15 +137,25 @@ void UC_SPlayerBuildManager::OnInputMoveBuildable()
 	}
 }
 
+bool UC_SPlayerBuildManager::BuildableInRange(const FVector &buildableLocation)
+{
+	return FVector::Dist(character->GetActorLocation(), buildableLocation) <= buildableSelectionRange;
+}
+
+bool UC_SPlayerBuildManager::BuildableInRange(ASBuildable *buildable)
+{
+	return BuildableInRange(buildable->GetActorLocation());
+}
+
 //This function adds the left click input for when you want to put the buildable, but not for moving it
 void UC_SPlayerBuildManager::OnInputPutBuildable()
 {
-	if (currentState == PlayerBuildingState::Moving) OnInputMoveBuildable();
+	if (currentState == PlayerBuildingState::MovingBuildable) OnInputMoveBuildable();
 }
 
 void UC_SPlayerBuildManager::OnInputRotateBuildableDown() 
 {
-	if (currentState == PlayerBuildingState::Moving) rotateInputDown = true;
+	if (currentState == PlayerBuildingState::MovingBuildable) rotateInputDown = true;
 }
 void UC_SPlayerBuildManager::OnInputRotateBuildableUp() 
 {
@@ -149,10 +176,10 @@ void UC_SPlayerBuildManager::RotateTargetBuildable()
 
 void UC_SPlayerBuildManager::OnInputRemoveBuildable() 
 {
-	if (targetBuildable && targetPoint != FVector::ZeroVector && currentState == PlayerBuildingState::Moving)
+	if (targetBuildable && targetPoint != FVector::ZeroVector && currentState == PlayerBuildingState::MovingBuildable)
 	{
 		targetBuildable->OnDestroy();
-		currentState = PlayerBuildingState::Pointing;
+		currentState = PlayerBuildingState::PointingBuildable;
 	}
 }
 
@@ -168,7 +195,7 @@ void UC_SPlayerBuildManager::OnBuildingsMenuItemSelected(TSubclassOf<ASBuildable
 
 	targetBuildable = buildable;
 	targetBuildable->OnBuilding();
-	currentState = PlayerBuildingState::Moving;
+	currentState = PlayerBuildingState::MovingBuildable;
 }
 
 PlayerBuildingState UC_SPlayerBuildManager::GetCurrentBuildingState()
