@@ -46,9 +46,10 @@ public:
 	}
 
 	//Get the closest Actor of type T from originActor. If planar==TRUE,  then the Z coord is NOT taken into account. Otherwise, Z is taken into account.
+	//If a radius is specified, the T found must be inside that radius from the origin actor.
 	//The originActor is obviously not taken into account
 	template <class T>
-	static T* GetClosestTo(UWorld *world,  AActor *originActor, bool planar = false)
+	static T* GetClosestTo(UWorld *world,  AActor *originActor, float radius = -1.0f, bool planar = false)
 	{
 		T* closest = nullptr;
 		float minDist = -1.0f;
@@ -60,13 +61,16 @@ public:
 			FVector pos1 = actor->GetActorLocation(); if (planar) pos1.Z = .0f;
 			float dist = FVector::Dist(pos0, pos1);
 
-			if (minDist < 0.0f || dist < minDist)
+			if (radius < 0.0f || dist <= radius)
 			{
-				T *TObject = Cast<T>(*actor);
-				if (TObject)
+				if (minDist < 0.0f || dist < minDist)
 				{
-					closest = TObject;
-					minDist = dist;
+					T *TObject = Cast<T>(*actor);
+					if (TObject)
+					{
+						closest = TObject;
+						minDist = dist;
+					}
 				}
 			}
 		}

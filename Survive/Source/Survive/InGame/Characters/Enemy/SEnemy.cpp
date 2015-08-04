@@ -32,4 +32,3 @@ void ASEnemy::ReceiveDamage(AActor* originActor, float damage)
 	life -= damage;
 	if (life <= 0) this->Destroy();
 }
-
