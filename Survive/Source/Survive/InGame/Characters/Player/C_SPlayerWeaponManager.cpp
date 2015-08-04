@@ -44,3 +44,8 @@ void UC_SPlayerWeaponManager::OnWeaponsMenuItemSelected(TSubclassOf<ASWeapon> We
 	ASWeapon *weapon = Cast<ASWeapon>(actor);
 	EquipWeapon(weapon);
 }
+
+ASWeapon* UC_SPlayerWeaponManager::GetCurrentWeapon()
+{
+	return currentWeapon;
+}

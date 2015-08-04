@@ -1,10 +1,9 @@
 #include "Survive.h"
 #include "SFireWeapon.h"
 
-
 ASFireWeapon::ASFireWeapon()
 {
-	rateOfFire = 1.0f;
+	rateOfFire = 3.0f;
 
 	timeLastShot = 999.9f;
 	timeLastReload = 999.9f;
@@ -46,8 +45,7 @@ void ASFireWeapon::Use()
 {
 	ASWeapon::Use();
 
-	if (!CanBeUsed()) OnNotSuccessfulWeaponUse();
-	else
+	if (CanBeUsed()) 
 	{
 		timeLastShot = 0.0f;
 		--currentAmmo;
@@ -69,19 +67,33 @@ void ASFireWeapon::Use()
 		}
 		else OnSuccessfulWeaponUse(nullptr, false, FVector::ZeroVector); //Successful, but didnt hit any Actor
 	}
+	else //Weapon can NOT Be Used 
+	{
+		OnNotSuccessfulWeaponUse();
+	}
 }
 
 
 bool ASFireWeapon::CanBeUsed()
 {
-	if (timeLastShot < 1.0f / rateOfFire) return false;
-	if (timeLastReload < reloadTime) return false;
-	if(currentAmmo <= 0) return false;
+	if ( WaitingForRateOfFire() ) return false;
+	if ( Reloading() ) return false;
+	if( OutOfAmmo() ) return false;
 	return true;
 }
 
 void ASFireWeapon::Reload()
 {
-	if (timeLastReload >= reloadTime) currentAmmo = slotAmmo;
+	if ( !Reloading() ) currentAmmo = slotAmmo;
 	timeLastReload = 0.0f;
 }
+
+float ASFireWeapon::GetRateOfFire() { return rateOfFire; }
+float ASFireWeapon::GetReloadTime() { return reloadTime; }
+int32 ASFireWeapon::GetSlotAmmo() { return slotAmmo; }
+int32 ASFireWeapon::GetCurrentAmmo() { return currentAmmo; }
+
+
+bool ASFireWeapon::OutOfAmmo() { return currentAmmo <= 0; }
+bool ASFireWeapon::Reloading() { return timeLastReload < reloadTime; }
+bool ASFireWeapon::WaitingForRateOfFire() { return timeLastShot < 1.0f / rateOfFire; }

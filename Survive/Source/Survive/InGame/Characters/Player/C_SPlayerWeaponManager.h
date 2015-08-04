@@ -15,7 +15,6 @@ class SURVIVE_API UC_SPlayerWeaponManager : public UActorComponent
 private:
 
 	ASWeapon *currentWeapon;
-
 	ASPlayer *player;
 
 	void EquipWeapon(ASWeapon *weapon);
@@ -34,4 +33,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Player Weapon")
 		void OnWeaponsMenuItemSelected(TSubclassOf<ASWeapon> WeaponClass);
+
+	UFUNCTION(BlueprintCallable, Category = "Player Weapon")
+		ASWeapon* GetCurrentWeapon();
 };

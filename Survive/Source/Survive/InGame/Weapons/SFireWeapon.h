@@ -38,4 +38,13 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Reload) 
 		void OnReload();
+
+	UFUNCTION(BlueprintCallable, Category = Combat) float GetRateOfFire();
+	UFUNCTION(BlueprintCallable, Category = Combat) float GetReloadTime();
+	UFUNCTION(BlueprintCallable, Category = Combat) int32 GetSlotAmmo();
+	UFUNCTION(BlueprintCallable, Category = Combat) int32 GetCurrentAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = Combat) bool OutOfAmmo();
+	UFUNCTION(BlueprintCallable, Category = Combat) bool Reloading();
+	UFUNCTION(BlueprintCallable, Category = Combat) bool WaitingForRateOfFire();
 };

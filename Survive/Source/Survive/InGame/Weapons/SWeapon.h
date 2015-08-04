@@ -24,8 +24,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UFUNCTION(BlueprintCallable, Category = Combat)
-		virtual void Use(); //Try to use this weapon.
+	UFUNCTION(BlueprintCallable, Category = Combat) virtual void Use(); //Try to use this weapon.
 
 	virtual bool CanBeUsed() { return true; }
 
