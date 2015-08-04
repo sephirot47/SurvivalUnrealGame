@@ -9,8 +9,8 @@ class SURVIVE_API ASEnemy : public ACharacter, public IDamageReceiver
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Stats") float maxLife;
-	UPROPERTY(EditAnywhere, Category = "Stats") float life;
+	UPROPERTY(EditAnywhere, Category = "Stats") float maxHealth;
+	UPROPERTY(EditAnywhere, Category = "Stats") float health;
 
 public:
 	ASEnemy();

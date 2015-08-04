@@ -5,8 +5,8 @@ ASEnemy::ASEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	maxLife = 100.0f;
-	life = maxLife;
+	maxHealth = 100.0f;
+	health = maxHealth;
 }
 
 void ASEnemy::BeginPlay()
@@ -29,6 +29,6 @@ void ASEnemy::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void ASEnemy::ReceiveDamage(AActor* originActor, float damage)
 {
-	life -= damage;
-	if (life <= 0) this->Destroy();
+	health -= damage;
+	if (health <= 0) this->Destroy();
 }

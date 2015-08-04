@@ -8,8 +8,8 @@ UC_CombatEnemy::UC_CombatEnemy()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
-	attack = 10.0f;
-	attackRate = 3.0f;
+	attack = 5.0f;
+	attackRate = 1.0f;
 	attackRange = 300.0f;
 
 	timeLastAttack = 0.0f;
@@ -30,11 +30,12 @@ void UC_CombatEnemy::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	
 	timeLastAttack += DeltaTime;
 
-	TArray<IDamageReceiver*> damageReceivers;
-	SUtils::GetAll_InARadiusOf<IDamageReceiver>(GetWorld(), enemy, attackRange, damageReceivers, true);
-	for (int i = 0; i < damageReceivers.Num(); ++i)
+	TArray<ASPlayer*> players;
+	SUtils::GetAll_InARadiusOf<ASPlayer>(GetWorld(), enemy, attackRange, players, true);
+	for (int i = 0; i < players.Num(); ++i)
 	{
-		AActor *actor = Cast<AActor>(damageReceivers[i]);
+		ASPlayer *player = players[i];
+		Attack(player);
 	}
 }
 
@@ -42,9 +43,9 @@ void UC_CombatEnemy::OnTickWithoutAValidPathToPlayer()
 {
 	if (CanAttack())
 	{
-		GEngine->AddOnScreenDebugMessage(1234, 1.0f, FColor::Black, TEXT("CAN ATTACK"));
 		ASBuildable *buildable = SUtils::GetClosestTo<ASBuildable>(GetWorld(), enemy, attackRange);
-		if (buildable) Attack(buildable);
+		if (buildable && !buildable->GetCurrentState() == BuildableState::Building) 
+			Attack(buildable);
 	}
 }
 
@@ -55,6 +56,8 @@ bool UC_CombatEnemy::CanAttack()
 
 void UC_CombatEnemy::Attack(IDamageReceiver *damageReceiver)
 {
+	if (!CanAttack()) return;
+
 	GEngine->AddOnScreenDebugMessage(12534, 1.0f, FColor::Green, TEXT("ATTACKING"));
 	timeLastAttack = 0.0f;
 	damageReceiver->ReceiveDamage(enemy, attack);

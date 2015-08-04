@@ -5,7 +5,7 @@
 #include "SPlayer.generated.h"
 
 UCLASS()
-class SURVIVE_API ASPlayer : public ACharacter
+class SURVIVE_API ASPlayer : public ACharacter, public IDamageReceiver
 {
 	GENERATED_BODY()
 
@@ -34,4 +34,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Stats) 
 		float GetHealthPercent();
+
+	virtual void ReceiveDamage(AActor* originActor, float damage) override;
 };

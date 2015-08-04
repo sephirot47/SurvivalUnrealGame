@@ -53,3 +53,9 @@ float ASPlayer::GetHealthPercent()
 { 
 	return health / maxHealth;
 }
+
+void ASPlayer::ReceiveDamage(AActor* originActor, float damage)
+{
+	health -= damage;
+	if (health <= 0) this->Destroy();
+}

@@ -26,12 +26,12 @@ void UC_AIEnemy::TickComponent( float DeltaTime, ELevelTick TickType, FActorComp
 	//When the enemy can't reach the player, this means he has a buildable in front of him
 	if (ExistsValidPathToPlayer())
 	{
-		GEngine->AddOnScreenDebugMessage(125, 1.0f, FColor::Red, TEXT("SIMPLE MOVE!"));
+		//GEngine->AddOnScreenDebugMessage(125, 1.0f, FColor::Red, TEXT("SIMPLE MOVE!"));
 		UNavigationSystem::SimpleMoveToLocation(enemy->GetController(), player->GetActorLocation());
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(125, 1.0f, FColor::Red, TEXT("STRAAAAAAAAAAAIIIGHT!"));
+		//GEngine->AddOnScreenDebugMessage(125, 1.0f, FColor::Red, TEXT("STRAAAAAAAAAAAIIIGHT!"));
 
 		//Move in a straight line(directly) to the player. Notify the UC_CombatEnemy that the enemy is not finding the
 		//right path, so he can break the buildables in the middle.
@@ -57,7 +57,7 @@ bool UC_AIEnemy::ExistsValidPathToPlayer()
 
 	FVector playerLocation = player->GetActorLocation(); playerLocation.Z = 0.0f;
 	FVector lastPathPoint = navPath->PathPoints[navPath->PathPoints.Num() - 1]; lastPathPoint.Z = 0.0f;
-	GEngine->AddOnScreenDebugMessage(126, 1.0f, FColor::Green, FString::SanitizeFloat(FVector::Dist(lastPathPoint, playerLocation)));
+	//GEngine->AddOnScreenDebugMessage(126, 1.0f, FColor::Green, FString::SanitizeFloat(FVector::Dist(lastPathPoint, playerLocation)));
 	return FVector::Dist(lastPathPoint, playerLocation) <= 30.0f;
 }
 
