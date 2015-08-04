@@ -131,7 +131,7 @@ void ASBuildable::OnOutOfPlayerBuildRange()
 
 void ASBuildable::OnInsideOfPlayerBuildRange()
 {
-	ChangeMaterial(BuildingMaterial);
+	if (!isOverlapping) ChangeMaterial(BuildingMaterial);
 }
 
 void ASBuildable::ReceiveDamage(AActor* originActor, float damage)
