@@ -23,5 +23,4 @@ void ASWeapon::Tick( float DeltaTime )
 
 void ASWeapon::Use()
 {
-	OnSuccessfulWeaponUse();
 }

@@ -19,9 +19,8 @@ void ASWeaponMelee::Tick(float DeltaTime)
 void ASWeaponMelee::Use()
 {
 	ASWeapon::Use();
-
+	//OnSuccessfulWeaponUse(nullptr, false, FVector::ZeroVector);
 }
-
 
 bool ASWeaponMelee::CanBeUsed()
 {

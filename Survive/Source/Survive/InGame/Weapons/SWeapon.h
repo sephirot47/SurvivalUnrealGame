@@ -2,6 +2,7 @@
 
 #include "GameFramework/Actor.h"
 #include "../Characters/Player/SPlayer.h"
+#include "../Characters/IDamageReceiver.h"
 #include "SWeapon.generated.h"
 
 UCLASS()
@@ -29,7 +30,10 @@ public:
 	virtual bool CanBeUsed() { return true; }
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Combat) 
-		virtual void OnSuccessfulWeaponUse(); //Called every time this weapon is successfully used
+		virtual void OnSuccessfulWeaponUse(AActor *damageReceiver, bool hasHit, const FVector& hitPoint); //Called every time this weapon is successfully used
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+		virtual void OnNotSuccessfulWeaponUse(); //Called every time this weapon is NOT successfully used
 
 	float GetDamage() { return damage; }
 	float GetWeight() { return weight; }

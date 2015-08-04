@@ -7,7 +7,7 @@ ASPlayer::ASPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 
 	maxHealth = 100.0f;
-	health = maxHealth * 0.6f;
+	health = maxHealth;
 }
 
 void ASPlayer::BeginPlay()
