@@ -37,7 +37,7 @@ public:
 		virtual void OnNotSuccessfulWeaponUse(); //Called every time this weapon is NOT successfully used
 
 	void OnWeaponUseInput() { usingWeapon = true; }
-	void OnWeaponUnUseInput() { usingWeapon = false; }
+	void OnWeaponUnUseInput() { usingWeapon = false;}
 
 	float GetDamage() { return damage; }
 	float GetWeight() { return weight; }
