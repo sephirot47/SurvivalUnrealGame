@@ -58,6 +58,6 @@ bool UC_AIEnemy::ExistsValidPathToPlayer()
 	FVector playerLocation = player->GetActorLocation(); playerLocation.Z = 0.0f;
 	FVector lastPathPoint = navPath->PathPoints[navPath->PathPoints.Num() - 1]; lastPathPoint.Z = 0.0f;
 	GEngine->AddOnScreenDebugMessage(126, 1.0f, FColor::Green, FString::SanitizeFloat(FVector::Dist(lastPathPoint, playerLocation)));
-	return FVector::Dist(lastPathPoint, playerLocation) <= 1.0f;
+	return FVector::Dist(lastPathPoint, playerLocation) <= 30.0f;
 }
 

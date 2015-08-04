@@ -75,7 +75,7 @@ void UC_SPlayerBuildManager::TickComponent( float DeltaTime, ELevelTick TickType
 void UC_SPlayerBuildManager::FillTargetBuildableInfo()
 {
 	TArray<AActor*> ignoredActors;
-	ignoredActors.Add(GetOwner()); //Ignore myself (he player)
+	ignoredActors.Add(GetOwner()); //Ignore myself (the player)
 
 	APlayerCameraManager *camManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
 	FVector traceStart = camManager->GetCameraLocation();

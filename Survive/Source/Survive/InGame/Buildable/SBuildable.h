@@ -45,6 +45,9 @@ private:
 	void ChangeMaterial(BuildableMaterial material);
 	void ApplyCurrentMaterialColors();
 
+	//Makes it count or not when the UNavigationSystem is looking for a path
+	void SetRelevantForNavigation(bool relevant);
+
 public:	
 
 	//dynamicMaterial is set in the construction script of SBuildable

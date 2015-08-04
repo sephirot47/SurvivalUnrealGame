@@ -41,12 +41,19 @@ void ASBuildable::Tick( float DeltaTime )
 	}
 }
 
+void ASBuildable::SetRelevantForNavigation(bool relevant)
+{
+	TArray<UMeshComponent*> meshes; GetComponents<UMeshComponent>(meshes);
+	for (UMeshComponent *mesh : meshes)
+		mesh->bCanEverAffectNavigation = relevant;
+}
 
 void ASBuildable::OnBuilding_Implementation()
 {
 	ChangeMaterial(BuildableMaterial::BuildingMaterial);
 	currentState = Building;
 	SetCollidableWithPlayer(false);
+	SetRelevantForNavigation(false);
 }
 
 void ASBuildable::OnBuilt_Implementation()
@@ -56,6 +63,7 @@ void ASBuildable::OnBuilt_Implementation()
 	ChangeMaterial(BuildableMaterial::BuiltMaterial);
 	currentState = Built;
 	SetCollidableWithPlayer(true);
+	SetRelevantForNavigation(true);
 }
 
 void ASBuildable::OnPointingOver_Implementation()
@@ -63,6 +71,7 @@ void ASBuildable::OnPointingOver_Implementation()
 	ChangeMaterial(BuildableMaterial::PointingOverMaterial);
 	currentState = PointingOver;
 	SetCollidableWithPlayer(true);
+	SetRelevantForNavigation(true);
 }
 
 void ASBuildable::OnDestroy_Implementation()
@@ -136,6 +145,8 @@ void ASBuildable::OnInsideOfPlayerBuildRange()
 
 void ASBuildable::ReceiveDamage(AActor* originActor, float damage)
 {
+	if (currentState == BuildableState::Building) return;
+
 	life -= damage;
 	OnReceiveDamage(originActor, damage);
 }
