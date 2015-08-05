@@ -19,7 +19,11 @@ void ASMeleeWeapon::Tick(float DeltaTime)
 void ASMeleeWeapon::Use()
 {
 	ASWeapon::Use();
-	//OnSuccessfulWeaponUse(nullptr, false, FVector::ZeroVector);
+	if (CanBeUsed())
+	{
+		OnSuccessfulWeaponUse(nullptr, false, FVector::ZeroVector);
+	}
+	else OnNotSuccessfulWeaponUse();
 }
 
 bool ASMeleeWeapon::CanBeUsed()

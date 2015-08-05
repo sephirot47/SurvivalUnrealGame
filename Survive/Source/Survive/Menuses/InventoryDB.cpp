@@ -16,3 +16,11 @@ void AInventoryDB::Tick(float DeltaTime)
 	Super::Tick( DeltaTime );
 }
 
+int32 AInventoryDB::GetAmmoAmountForThisTypeOfWeapon(TSubclassOf<ASFireWeapon> FireWeaponClass)
+{
+	int32 ammoAmount = 0;
+	for (UInventoryItem *item : items)
+	{
+	}
+	return ammoAmount;
+}

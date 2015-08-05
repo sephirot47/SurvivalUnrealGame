@@ -50,10 +50,10 @@ void UC_AIEnemy::TickComponent( float DeltaTime, ELevelTick TickType, FActorComp
 //and we get the correct bool like this
 bool UC_AIEnemy::ExistsValidPathToPlayer()
 {
-	UNavigationSystem *navSys = GetWorld()->GetNavigationSystem();
 	UNavigationPath *navPath = UNavigationSystem::FindPathToLocationSynchronously(GetWorld(), enemy->GetActorLocation(), player->GetActorLocation());
 	
-	if (!navPath->IsValid()) return false; //This means that navPath has NO points or is not updated or something like that :)
+	if (!navPath || !navPath->IsValid()) return false; //This means that navPath has NO points or is not updated or something like that :)
+	if (navPath->PathPoints.Num() <= 0) return false;
 
 	FVector playerLocation = player->GetActorLocation(); playerLocation.Z = 0.0f;
 	FVector lastPathPoint = navPath->PathPoints[navPath->PathPoints.Num() - 1]; lastPathPoint.Z = 0.0f;

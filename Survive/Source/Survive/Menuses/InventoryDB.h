@@ -18,5 +18,7 @@ public:
 	AInventoryDB();
 
 	virtual void BeginPlay() override;
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
+
+	int32 GetAmmoAmountForThisTypeOfWeapon(TSubclassOf<ASFireWeapon> FireWeaponClass);
 };
