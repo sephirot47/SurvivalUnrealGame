@@ -5,6 +5,9 @@ ASWeapon::ASWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	timeLastShot = 999.9f;
+	rateOfFire = 3.0f;
+
 	damage = 5.0f;
 	weight = 0.1f;
 
@@ -22,9 +25,26 @@ void ASWeapon::BeginPlay()
 void ASWeapon::Tick( float DeltaTime )
 {
 	Super::Tick(DeltaTime);
+
+	timeLastShot += DeltaTime;
 	if (usingWeapon) Use();
+}
+
+bool ASWeapon::CanBeUsed()
+{
+	return !WaitingForRateOfFire();
 }
 
 void ASWeapon::Use()
 {
+}
+
+float ASWeapon::GetRateOfFire()
+{
+	return rateOfFire;
+}
+
+bool ASWeapon::WaitingForRateOfFire()
+{
+	return timeLastShot < 1.0f / rateOfFire;
 }

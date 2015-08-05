@@ -3,9 +3,6 @@
 
 ASFireWeapon::ASFireWeapon()
 {
-	rateOfFire = 3.0f;
-
-	timeLastShot = 999.9f;
 	timeLastReload = 999.9f;
 
 	reloadTime = 2.0f;
@@ -22,8 +19,6 @@ void ASFireWeapon::BeginPlay()
 void ASFireWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	timeLastShot += DeltaTime;
 	timeLastReload += DeltaTime;
 }
 
@@ -47,9 +42,6 @@ void ASFireWeapon::Use()
 
 	if (CanBeUsed()) 
 	{
-		timeLastShot = 0.0f;
-		--currentAmmo;
-
 		TArray<AActor*> damageReceivers;
 		TArray<FHitResult> hits;
 		GetTracedActors(damageReceivers, hits);
@@ -66,6 +58,9 @@ void ASFireWeapon::Use()
 			if (dmgReceiver) dmgReceiver->ReceiveDamage(this, damage);
 		}
 		else OnSuccessfulWeaponUse(nullptr, false, FVector::ZeroVector); //Successful, but didnt hit any Actor
+
+		NotifyWeaponUsed(); //Notify ASWeapon it has been really used (reset rate of fire time handler)
+		--currentAmmo;
 	}
 	else //Weapon can NOT Be Used 
 	{
@@ -76,10 +71,7 @@ void ASFireWeapon::Use()
 
 bool ASFireWeapon::CanBeUsed()
 {
-	if ( WaitingForRateOfFire() ) return false;
-	if ( Reloading() ) return false;
-	if( OutOfAmmo() ) return false;
-	return true;
+	return ASWeapon::CanBeUsed() && !Reloading() && !OutOfAmmo();
 }
 
 void ASFireWeapon::Reload()
@@ -88,7 +80,6 @@ void ASFireWeapon::Reload()
 	timeLastReload = 0.0f;
 }
 
-float ASFireWeapon::GetRateOfFire() { return rateOfFire; }
 float ASFireWeapon::GetReloadTime() { return reloadTime; }
 int32 ASFireWeapon::GetSlotAmmo() { return slotAmmo; }
 int32 ASFireWeapon::GetCurrentAmmo() { return currentAmmo; }
@@ -96,4 +87,3 @@ int32 ASFireWeapon::GetCurrentAmmo() { return currentAmmo; }
 
 bool ASFireWeapon::OutOfAmmo() { return currentAmmo <= 0; }
 bool ASFireWeapon::Reloading() { return timeLastReload < reloadTime; }
-bool ASFireWeapon::WaitingForRateOfFire() { return timeLastShot < 1.0f / rateOfFire; }
